@@ -1,0 +1,5 @@
+Technology logos: Simple Icons
+https://github.com/simple-icons/simple-icons
+Source: develop/icons/{name}.svg
+Downloaded: 2026-10-26T05:45:40.115Z
+Library license: CC0-1.0. Brand marks remain their respective owners’ trademarks.

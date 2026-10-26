@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Portfolio admin</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/admin/admin.css">
+  <script type="module" src="/admin/admin.mjs"></script>
+</head>
+<body class="admin-page">
+  <a class="skip-link" href="#workspace">Skip to content</a>
+  <div class="admin-shell">
+    <header class="admin-header">
+      <div><h1>Portfolio admin</h1><p id="owner" class="muted">Owner access</p></div>
+      <div class="header-actions"><a href="/" id="public-link">Public site</a><button id="logout" hidden>Log out</button></div>
+    </header>
+    <p id="status" class="status" role="status" aria-live="polite">Loading owner session…</p>
+    <section id="auth" aria-labelledby="login-title" hidden>
+      <h2 id="login-title">Owner sign in</h2>
+      <p class="muted">Use the owner account configured for this portfolio.</p>
+      <form id="login-form" class="login-form">
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="username" required aria-describedby="error-email"><p class="field-error" id="error-email" data-error="email"></p></div>
+        <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required aria-describedby="error-password"><p class="field-error" id="error-password" data-error="password"></p></div>
+        <p id="login-error" class="form-error" role="alert"></p>
+        <button type="submit" class="primary">Sign in</button>
+      </form>
+    </section>
+    <section id="setup" hidden aria-labelledby="setup-title"><h2 id="setup-title">Admin unavailable</h2><p id="setup-message">The backend is not configured. Configure the local owner account and backend, then retry.</p><button id="retry">Retry connection</button></section>
+    <div id="authenticated" hidden>
+      <nav id="collections" aria-label="Admin sections"></nav>
+      <div class="draft-actions"><p class="muted">Save draft changes before previewing or publishing.</p><div><button id="preview">Preview draft</button><button id="publish" class="primary">Publish locally</button><a id="export" href="/api/admin/export" download="portfolio-draft.json">Download JSON</a></div></div>
+      <main id="workspace" tabindex="-1"></main>
+    </div>
+  </div>
+</body>
+</html>

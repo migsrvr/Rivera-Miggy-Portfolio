@@ -1,0 +1,10 @@
+import {createApp} from '../server/app.mjs';
+import {loadConfig} from '../server/config.mjs';
+import {build} from './build.mjs';
+import {existsSync} from 'node:fs';
+const config=loadConfig();
+if(!existsSync('dist/index.html'))await build();
+const app=await createApp({config,logger:true});
+await app.listen({host:config.host,port:config.port});
+console.log(`Portfolio: ${config.origin}/ | Admin: ${config.origin}/admin/`);
+for(const signal of ['SIGINT','SIGTERM'])process.once(signal,async()=>{await app.close();process.exit(0);});

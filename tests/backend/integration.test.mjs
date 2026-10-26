@@ -1,0 +1,74 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile,mkdtemp,mkdir} from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {randomUUID,createHash} from 'node:crypto';
+import {createDatabase} from '../../server/database.mjs';
+import {createRepository} from '../../server/repository.mjs';
+import {createApp} from '../../server/app.mjs';
+import {Publisher} from '../../server/publisher.mjs';
+import {hashPassword,SessionCodec} from '../../server/auth.mjs';
+import {createSeedDraft} from '../../src/model.mjs';
+import {migrate} from '../../scripts/migrate.mjs';
+import {build} from '../../scripts/build.mjs';
+
+const testUrl=process.env.TEST_DATABASE_URL;
+test('real PostgreSQL owner API protects sessions, drafts, originals, preview and release restoration',{skip:!testUrl&&'Set local TEST_DATABASE_URL to run PostgreSQL integration.'},async()=>{
+  const source=new URL(testUrl);assert.ok(['127.0.0.1','localhost','[::1]'].includes(source.hostname),'Integration tests refuse hosted databases.');
+  const control=createDatabase({databaseUrl:testUrl}),databaseName='portfolio_api_'+randomUUID().replaceAll('-','');
+  await control.query(`CREATE DATABASE ${databaseName}`);source.pathname='/'+databaseName;
+  const database=createDatabase({databaseUrl:source.toString()}),root=await mkdtemp(path.join(os.tmpdir(),'portfolio-neon-api-'));
+  const config={root:path.resolve('.'),origin:'http://127.0.0.1:4173',configured:true,secure:false,secret:'test-only-secret-'.repeat(4),originalsRoot:path.join(root,'originals')};
+  const credentials={email:'owner@example.test',password:'test-only-correct-owner-password'};let app;
+  try{
+    await migrate(database);const ownerId=randomUUID();await database.query('INSERT INTO portfolio.owner(singleton,id,email,password_hash) VALUES(true,$1,$2,$3)',[ownerId,credentials.email,await hashPassword(credentials.password)]);
+    const repo=createRepository(database,{originalsRoot:config.originalsRoot}),seed=createSeedDraft();
+    // Integration exercises real auth/SQL/files; external GitHub is a separate smoke check.
+    seed.entries.find(e=>e.collection==='profile').data.github=null;
+    for(const entry of seed.entries)await repo.saveEntry(entry.collection,entry);await repo.setRelationships(seed.relationships);
+    await build({outputDir:path.join(root,'dist')});const publisher=new Publisher({root});let repositoryCalls=0;
+    app=await createApp({config,database,publisher,repository:(db,options)=>{repositoryCalls++;return createRepository(db,options);}});
+    let cookie='',csrf='';
+    const request=(method,url,payload,headers={})=>app.inject({method,url,payload,cookies:cookie?{portfolio_session:cookie}:{},headers:{origin:config.origin,'x-csrf-token':csrf,...headers}});
+    const signIn=async()=>{const result=await request('POST','/api/admin/login',credentials);assert.equal(result.statusCode,200,result.body);const parsed=result.cookies.find(c=>c.name==='portfolio_session');assert.equal(parsed.httpOnly,true);assert.equal(parsed.sameSite,'Strict');cookie=parsed.value;csrf=result.json().csrf;assert.doesNotMatch(result.body,/password_hash|token_hash|refresh_token/);};
+    assert.equal((await request('GET','/api/admin/session')).statusCode,401);
+    assert.equal((await request('POST','/api/admin/login',credentials,{origin:'https://wrong.test'})).statusCode,403);
+    assert.equal((await request('POST','/api/admin/login',{...credentials,password:'wrong-password'})).statusCode,401);
+    await signIn();assert.equal((await request('GET','/api/admin/bootstrap')).json().entries.length,29);
+    const codec=new SessionCodec(config.secret),token=codec.decode(cookie).token;
+    const stored=(await database.query('SELECT token_hash FROM portfolio.sessions')).rows[0];assert.notEqual(stored.token_hash,token);assert.equal(stored.token_hash,createHash('sha256').update(token).digest('hex'));
+    const realCookie=cookie;cookie=cookie.slice(0,-5)+'xxxxx';assert.equal((await request('GET','/api/admin/session')).statusCode,401);cookie=realCookie;
+    await database.query('UPDATE portfolio.sessions SET expires_at=now()-interval \'1 second\'');assert.equal((await request('GET','/api/admin/session')).statusCode,401);await signIn();
+    assert.equal((await request('PUT','/api/admin/relationships',{relationships:[]},{'x-csrf-token':'wrong'})).statusCode,403);
+    const profile=(await repo.getDraft()).entries.find(e=>e.collection==='profile');const draftName='Private integration draft';
+    assert.equal((await request('PUT','/api/admin/content/profile/profile',{...profile,data:{...profile.data,name:draftName}})).statusCode,200);
+    const before=repositoryCalls;const publicBefore=await request('GET','/');assert.equal(repositoryCalls,before);assert.ok(!publicBefore.body.includes(draftName));
+    for(const entry of [{collection:'projects',id:'integration-project',data:{title:'Standalone project',kind:'deployed'}},{collection:'experiences',id:'integration-experience',data:{role:'Builder',organization:'Example'}}])assert.equal((await request('PUT',`/api/admin/content/${entry.collection}/${entry.id}`,entry)).statusCode,200);
+    const links=[...seed.relationships,{project_id:'integration-project',experience_id:'integration-experience',sample:false}];assert.equal((await request('PUT','/api/admin/relationships',{relationships:links})).statusCode,200);
+    const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64'),boundary='portfolio-test-boundary';
+    const body=Buffer.concat([Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="test.png"\r\nContent-Type: image/png\r\n\r\n`),png,Buffer.from(`\r\n--${boundary}--\r\n`)]);
+    const upload=await request('POST','/api/admin/assets',body,{'content-type':'multipart/form-data; boundary='+boundary});assert.equal(upload.statusCode,200,upload.body);const asset=upload.json().asset;
+    assert.equal(asset.visibility,'private');assert.equal((await app.inject('/api/admin/assets/'+asset.id+'/file')).statusCode,401);
+    assert.equal((await app.inject('/.local/originals/'+asset.storage_path)).statusCode,404);
+    assert.equal((await request('PUT','/api/admin/content/gallery/integration-gallery',{collection:'gallery',id:'integration-gallery',data:{title:'Private photo',image:'asset:'+asset.id}})).statusCode,200);
+    const preview=await request('POST','/api/admin/preview');assert.equal(preview.statusCode,200,preview.body);const previewUrl=preview.json().url;
+    assert.equal((await app.inject(previewUrl)).statusCode,401);const previewPage=await request('GET',previewUrl);assert.ok(previewPage.body.includes(draftName));assert.equal(previewPage.headers['cache-control'],'no-store');
+    assert.deepEqual((await request('GET',previewUrl+`assets/uploads/${asset.id}.png`)).rawPayload,png);
+    const publish=async()=>{const result=await request('POST','/api/admin/publish');assert.equal(result.statusCode,202,result.body);await publisher.waitForIdle();return repo.getRelease(result.json().release.id);};
+    const failed=await publish();assert.equal(failed.state,'failed');assert.equal(publisher.activeId(),null);
+    assert.equal((await request('PATCH','/api/admin/assets/'+asset.id,{visibility:'public'})).statusCode,200);
+    const first=await publish();assert.equal(first.state,'ready',first.error||publisher.lastError?.stack);
+    const queries=repositoryCalls;assert.ok((await request('GET','/')).body.includes(draftName));assert.equal(repositoryCalls,queries);
+    assert.deepEqual((await request('GET',`/assets/uploads/${asset.id}.png`)).rawPayload,png);
+    assert.equal((await request('POST','/api/admin/content/experiences/integration-experience/archive',{archived:true})).statusCode,200);
+    const second=await publish();assert.equal(second.state,'ready');assert.equal((await request('GET','/experience/integration-experience/')).statusCode,404);
+    assert.equal((await request('POST',`/api/admin/releases/${first.id}/activate`)).statusCode,200);assert.equal((await request('GET','/experience/integration-experience/')).statusCode,200);
+    assert.equal((await repo.getDraft()).entries.find(e=>e.id==='integration-experience').archived,true);
+    assert.equal((await request('GET','/api/admin/export')).json().schemaVersion,1);
+    const replay=cookie;assert.equal((await request('POST','/api/admin/logout')).statusCode,200);cookie=replay;assert.equal((await request('GET','/api/admin/session')).statusCode,401);
+    assert.equal((await request('POST','/api/admin/register',credentials)).statusCode,401);
+  }finally{
+    if(app)await app.close();await database.close();await control.query(`DROP DATABASE ${databaseName} WITH (FORCE)`);await control.close();
+  }
+});
