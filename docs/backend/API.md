@@ -24,6 +24,8 @@ GET /api/health reports process availability and whether admin configuration is 
 
 Entry: collection,id,data,position,visible,sample,archived,updated_at. Collections: profile,projects,experiences,credentials,community,gallery. IDs are lowercase kebab strings, up to 80 characters; profile uses id profile. Data fields are described in REFERENCE-CHECKLIST.md and validated centrally in src/model.mjs. Asset field references use asset:<uuid> or an existing /assets/ path. Relationships: project_id,experience_id,sample.
 
+Experience and Community data support optional `startDate`, `endDate`, `employmentType`, `location`, and `workMode` strings. Supplied months use `YYYY-MM`; existing display text remains supported. A start date with a blank end displays Present, and completely absent dates display nothing. Missing metadata defaults to null. Existing entries and API routes remain compatible; these fields require no SQL migration.
+
 Assets contain generated storage_path, original_name, mime_type, size, visibility, archived. Releases contain id,state(building/ready/failed), immutable snapshot, error, created_at,published_at. The active local release is identified separately by the persisted filesystem pointer.
 
 Fastify authenticates one owner against a scrypt password hash. Login persists only the SHA-256 hash of a random opaque session token, with a seven-day absolute expiry. Every authenticated request checks that database session; logout and CLI owner reset revoke it. The encrypted cookie carries the token and CSRF nonce.

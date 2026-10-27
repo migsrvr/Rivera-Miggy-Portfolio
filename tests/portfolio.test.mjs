@@ -5,10 +5,10 @@ import {safeExternalUrl, videoSource, selectProject} from '../src/media.mjs';
 import {renderPage, escapeHtml, safeJson} from '../src/render.mjs';
 
 test('inventory preserves the supplied ten projects and AWS lead',()=>{
-  assert.deepEqual(deployed.map(p=>p.title),['AWS Website','AWS Photobooth','Care Cures','Mediseena','Pax Virentia']);
-  assert.deepEqual(recorded.map(p=>p.title),['Hydra','Rule VII','Hima-Paiflow','Desktop-Widget','SNEA']);
+  assert.deepEqual(deployed.map(p=>p.title),['AWS Website','AWS Photobooth','Care Cures','Mediseena','Pax Virentia','Hydra','Rule VII']);
+  assert.deepEqual(recorded.map(p=>p.title),['Hima-Paiflow','Desktop-Widget','SNEA']);
   assert.equal(featured[0].id,'aws-website');
-  assert.equal(experiences.length,3);assert.equal(credentials.length,6);
+  assert.equal(experiences.length,6);assert.equal(credentials.length,6);
 });
 test('external links accept HTTP(S) only and reject fake or empty targets',()=>{
   for(const url of [null,'','#','javascript:alert(1)','data:text/html,a','file:///C:/x','//example.com','https://user:password@example.com'])assert.equal(safeExternalUrl(url),null);
@@ -24,16 +24,16 @@ test('video URLs support known YouTube forms and local direct recordings safely'
 });
 test('selection finds the requested demo and falls back without altering the collection',()=>{
   const ids=recorded.map(p=>p.id);assert.equal(selectProject(recorded,'snea').title,'SNEA');
-  assert.equal(selectProject(recorded,'missing').id,'hydra');assert.equal(selectProject([], 'missing'),null);
+  assert.equal(selectProject(recorded,'missing').id,'hima-paiflow');assert.equal(selectProject([], 'missing'),null);
   assert.deepEqual(recorded.map(p=>p.id),ids);
 });
-test('all eleven routes have one h1, real navigation, correct current state, and no unfinished page',()=>{
-  assert.deepEqual(routes.map(r=>r.path),['/','/projects/','/experience/','/credentials/','/hackathons/','/leadership/','/organizations/','/gallery/','/experience/top-realty/','/experience/freelance/','/experience/aws-sbg-jru/']);
+test('all eight routes have one h1, real navigation, correct current state, and no unfinished page',()=>{
+  assert.deepEqual(routes.map(r=>r.path),['/','/projects/','/experience/','/credentials/','/hackathons/','/leadership/','/organizations/','/gallery/']);
   for(const route of routes){const html=renderPage(route.path);assert.equal((html.match(/<h1[\s>]/g)||[]).length,1);assert.match(html,/<html lang="en"/);assert.match(html,/href="\/projects\/"/);assert.match(html,/href="\/experience\/"/);assert.match(html,/href="\/credentials\/"/);assert.doesNotMatch(html,/href="#"|javascript:|href="\/practice\//);if(['/projects/','/experience/','/credentials/'].includes(route.path))assert.match(html,new RegExp('href="'+route.path+'"[^>]*aria-current="page"'));}
 });
-test('projects render all deployed entries and five persistent demo selectors',()=>{
+test('projects render all deployed entries and three persistent demo selectors',()=>{
   const html=renderPage('/projects/');for(const p of deployed)assert.ok(html.includes(p.title));
-  assert.equal((html.match(/data-demo-tab=/g)||[]).length,5);assert.equal((html.match(/id="demo-player"/g)||[]).length,1);
+  assert.equal((html.match(/data-demo-tab=/g)||[]).length,3);assert.equal((html.match(/id="demo-player"/g)||[]).length,1);
   assert.match(html,/Video preview pending/);assert.doesNotMatch(html,/<iframe|<video/);
 });
 test('Home has working overview links, real supplied resume and no missing social destinations',()=>{
@@ -68,7 +68,7 @@ test('community pages reuse plain reading rows and preserve supplied facts',()=>
     assert.doesNotMatch(html,/deployed-tile|folio-sheet|<p class="experience-description"><\/p>/);
   }
   assert.match(renderPage('/hackathons/'),/Sample entry/);
-  assert.match(renderPage('/leadership/'),/Web Development Lead/);
-  assert.match(renderPage('/leadership/'),/VP of External Affairs/);
+  assert.match(renderPage('/leadership/'),/Web Developer Lead/);
+  assert.match(renderPage('/leadership/'),/Vice President of External Affairs/);
   assert.match(renderPage('/organizations/'),/Notion Campus Leader/);
 });

@@ -6,9 +6,9 @@ Rough notes and original files are enough; no JSON preparation is required. Keep
 |---|---|
 | Profile | Name, role, introduction, current activity, contact email, resume, GitHub/LinkedIn, photo and caption |
 | Projects | Title, deployed/recorded, purpose, personal role/contribution, tools, live/repository/video URLs, poster; feature order and workflow if desired |
-| Experiences | Position, organization, description, logo, optional dates; which projects actually belong here |
+| Experiences | Position, organization, description, logo, optional dates, employment type, location, and work mode; which projects actually belong here |
 | Credentials | Name, provider, certificate/verification URL, document/logo, optional date/category; document evidence versus issuer verification |
-| Community | Hackathon/leadership/organization category, role, organization, contribution, logo, optional dates/results supplied as description |
+| Community | Hackathon/leadership/organization category, role, organization, contribution, logo, optional dates, employment type, location, and work mode; supplied results in the description |
 | Gallery | Image, title, caption, alternative text, optional date |
 
 Confirm which artifacts may be public. Private originals can be uploaded for owner preview; only explicitly approved referenced files are included in a release. Missing information can remain blank, hidden, or archived. Sample labels are removed only after confirming the content is real. A project can stand alone, or link to several experiences.

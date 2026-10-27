@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {experiences, routes, deployed, recorded} from '../src/content.mjs';
+import {experiences, routes} from '../src/content.mjs';
 import {renderPage} from '../src/render.mjs';
 
 test('every page offers the complete sidebar and an accessible mobile menu',()=>{
@@ -14,20 +14,15 @@ test('every page offers the complete sidebar and an accessible mobile menu',()=>
   }
 });
 
-test('experience entries open detail pages and connect back from every project',()=>{
-  const projectIds=[...deployed,...recorded].map(p=>p.id);
+test('experience rows retain supplied facts without opening individual pages',()=>{
   for(const item of experiences){
-    assert.ok(item.id);
     const path=`/experience/${item.id}/`;
-    assert.ok(routes.some(r=>r.path===path));
-    for(const parent of ['/','/experience/'])assert.ok(renderPage(parent).includes(`href="${path}"`));
-    const detail=renderPage(path);
-    assert.match(detail,/Related projects/);
-    assert.match(detail,/Sample project connections/);
-    for(const id of item.projectIds){assert.ok(projectIds.includes(id));assert.ok(detail.includes(`href="/projects/#${id}"`));}
-    assert.ok(renderPage('/projects/').includes(`href="${path}"`));
+    assert.ok(!routes.some(r=>r.path===path));
+    for(const parent of ['/','/experience/'])assert.ok(!renderPage(parent).includes(`href="${path}"`));
+    assert.throws(()=>renderPage(path),/Unknown route/);
+    assert.ok(!renderPage('/projects/').includes(`href="${path}"`));
+    if(item.description)assert.ok(renderPage('/experience/').includes(item.description));
   }
-  for(const id of projectIds)assert.ok(experiences.some(x=>x.projectIds.includes(id)),id);
 });
 
 test('gallery is a navigation destination without a Home content section',()=>{

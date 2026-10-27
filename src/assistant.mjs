@@ -1,3 +1,5 @@
+import {formatExperiencePeriod,formatExperienceContext} from './experience.mjs';
+
 // Local guide: answers only from the snapshot supplied by the page.
 export function answerQuestion(value,content={}){
   const question=String(value||'').trim().slice(0,500);if(!question)return null;
@@ -8,10 +10,10 @@ export function answerQuestion(value,content={}){
   const reply=(text,links=[])=>({text,links:links.map(l=>({...l,href:href(l.href)}))});
   const route=(label,path)=>[{label,href:path}];
   const sample=items=>items.some(p=>p.sample)?' Entries marked as samples are illustrative.':'';
-  const facts=items=>items.map(item=>[item.role,item.organization,item.description].filter(Boolean).join(' — ')).join(' ');
+  const facts=items=>items.map(item=>[item.role,item.organization,formatExperiencePeriod(item),formatExperienceContext(item),item.description].filter(Boolean).join(' — ')).join(' ');
   const project=projects.find(p=>{const title=p.title?.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();return title&&q.includes(title);});
   if(project)return reply([project.title+'.',project.purpose,project.contribution].filter(Boolean).join(' ')+sample([project]),route('Explore '+project.title,'/projects/#'+project.id));
-  if(/\b(experience|intern|internship|working|freelance|employ|realty)\b/.test(q))return reply((facts(experiences)||'No experience entries are currently listed.')+sample(experiences)+(content.relationships?.some(l=>l.sample)?' Some project connections are marked as samples.':''),route('View experience','/experience/'));
+  if(/\b(experience|intern|internship|working|freelance|employ|realty)\b/.test(q))return reply((facts(experiences)||'No experience entries are currently listed.')+sample(experiences),route('View experience','/experience/'));
   const category=/\b(hackathon|hackathons)\b/.test(q)?'hackathons':/\b(lead|leader|leadership)\b/.test(q)?'leadership':/\b(organization|organizations|community|notion)\b/.test(q)?'organizations':null;
   if(category){const page=communityPages.find(p=>p.id===category),items=page?.entries||[];return reply((facts(items)||'No '+category+' entries are currently listed.')+sample(items),route('View '+category,'/'+category+'/'));}
   if(/\b(credential|credentials|certification|certifications|certificate|certificates|award|awards)\b/.test(q))return reply((credentials.length?credentials.map(c=>c.name+' — '+c.provider).join('; ')+'.':'No credentials are currently listed.')+sample(credentials),route('View credentials','/credentials/'));

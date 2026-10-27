@@ -1,4 +1,4 @@
-import {mkdir,cp,writeFile,readFile,stat} from 'node:fs/promises';
+import {mkdir,cp,writeFile,readFile,stat,readdir,rm} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {createSeedDraft,toContent,getRoutes} from '../src/model.mjs';
@@ -14,12 +14,15 @@ export async function build({content=toContent(createSeedDraft()),outputDir,base
   const snapshot={...content,basePath},routes=getRoutes(snapshot);
   for(const route of routes)if(!/^\/(?:[a-z0-9-]+\/)*$/.test(route.path))throw new Error('Invalid route path');
   await mkdir(dist,{recursive:true});await cp(path.join(root,'public'),dist,{recursive:true});
-  for(const file of ['styles.css','client.mjs','media.mjs','assistant.mjs'])await cp(path.join(root,'src',file),path.join(dist,file));
+  const experienceDir=path.join(dist,'experience');
+  await mkdir(experienceDir,{recursive:true});
+  for(const entry of await readdir(experienceDir,{withFileTypes:true}))if(entry.isDirectory())await rm(path.join(experienceDir,entry.name),{recursive:true,force:true});
+  for(const file of ['styles.css','client.mjs','media.mjs','assistant.mjs','experience.mjs'])await cp(path.join(root,'src',file),path.join(dist,file));
   for(const asset of uploads){await mkdir(path.dirname(asset.target),{recursive:true});await writeFile(asset.target,asset.bytes);}
   const prefix=value=>basePath+value.slice(1);
   const cssPath=path.join(dist,'styles.css'),css=await readFile(cssPath,'utf8');
   await writeFile(cssPath,css.replace(/url\((['"]?)(\/assets\/[^)'"?#]+)\1\)/g,(_,quote,value)=>'url('+quote+prefix(value)+quote+')'));
-  const localAssets=new Set(['/media.mjs','/assistant.mjs']);
+  const localAssets=new Set(['/media.mjs','/assistant.mjs','/experience.mjs']);
   for(const route of routes){
     const html=renderPage(route.path,snapshot),target=path.join(dist,route.path,'index.html');
     await mkdir(path.dirname(target),{recursive:true});await writeFile(target,html);

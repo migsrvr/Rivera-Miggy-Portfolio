@@ -15,9 +15,9 @@ const stage=z.object({title,detail:z.array(text).max(20).default([]),shortTitle:
 const dataSchemas={
   profile:z.object({name:title,fullName:optionalText,role:optionalText,intro:optionalText,current:optionalText,email:z.string().email().nullish().default(null),resume:documentUrl,github:external,linkedin:external,photo:asset,photoAlt:optionalText,photoCaption:optionalText,techStack:z.array(title).max(40).default([])}),
   projects:z.object({title,kind:z.enum(['deployed','recorded']),role:optionalText,purpose:optionalText,contribution:optionalText,tools:z.array(title).max(100).default([]),url:external,repositoryUrl:external,videoUrl:external,poster:asset,mark:optionalText,featured:z.boolean().default(false),featureOrder:z.number().finite().default(0),stages:z.array(stage).max(20).default([])}),
-  experiences:z.object({role:title,organization:title,description:optionalText,logo:asset,startDate:optionalText,endDate:optionalText}),
+  experiences:z.object({role:title,organization:title,description:optionalText,logo:asset,startDate:optionalText,endDate:optionalText,employmentType:optionalText,location:optionalText,workMode:optionalText}),
   credentials:z.object({name:title,provider:title,logo:asset,url:documentUrl,linkLabel:z.preprocess(value=>value??'Verify',title),date:optionalText,category:optionalText}),
-  community:z.object({category:z.enum(['hackathons','leadership','organizations']),role:title,organization:optionalText,description:optionalText,logo:asset,startDate:optionalText,endDate:optionalText}),
+  community:z.object({category:z.enum(['hackathons','leadership','organizations']),role:title,organization:optionalText,description:optionalText,logo:asset,startDate:optionalText,endDate:optionalText,employmentType:optionalText,location:optionalText,workMode:optionalText}),
   gallery:z.object({title,caption:optionalText,image:asset,alt:optionalText,date:optionalText}),
 };
 export const entrySchemas=Object.fromEntries(COLLECTIONS.map(collection=>[collection,z.object({collection:z.literal(collection),id:collection==='profile'?z.literal('profile'):slug,data:dataSchemas[collection],position:z.number().int().min(-100000).max(100000).default(0),visible:z.boolean().default(true),sample:z.boolean().default(false),archived:z.boolean().default(false),updated_at:z.string().optional()})]));
@@ -36,7 +36,7 @@ export function createSeedDraft(){
   [...seed.deployed.map(p=>({...p,kind:'deployed'})),...seed.recorded.map(p=>({...p,kind:'recorded'}))].forEach((project,position)=>{
     const feature=seed.featured.find(p=>p.id===project.id);add('projects',project.id,{...project,tools:project.tools||feature?.tools.split(' · ')||[],featured:!!feature,featureOrder:seed.featured.findIndex(p=>p.id===project.id),stages:feature?.stages||[]},position);
   });
-  seed.experiences.forEach(({id,projectIds,...data},position)=>{add('experiences',id,data,position);projectIds.forEach(project_id=>relationships.push({project_id,experience_id:id,sample:true}));});
+  seed.experiences.forEach(({id,projectIds,...data},position)=>{add('experiences',id,data,position);projectIds.forEach(project_id=>relationships.push({project_id,experience_id:id,sample:false}));});
   seed.credentials.forEach(({id,sample,...data},position)=>add('credentials',id,data,position,!!sample));
   seed.communityPages.forEach(page=>page.entries.forEach((data,position)=>add('community',page.id+'-'+(position+1),{...data,category:page.id},position,!!page.sampleNote)));
   seed.gallery.forEach(({id,...data},position)=>add('gallery',id,data,position));
@@ -51,15 +51,13 @@ export function toContent(draft){
   const profile=select('profile')[0]||{name:'',fullName:'',role:'',intro:'',current:'',email:'',resume:null,photo:null};
   const parsedActivity=activitySchema.safeParse(draft.githubActivity);
   const githubActivity=parsedActivity.success&&parsedActivity.data.username.toLowerCase()===githubUsername(profile.github)?.toLowerCase()?parsedActivity.data:null;
-  const projects=select('projects'),experiences=select('experiences'),projectIds=new Set(projects.map(p=>p.id)),experienceIds=new Set(experiences.map(e=>e.id));
-  const relationships=(draft.relationships||[]).map(l=>linkSchema.parse(l)).filter(l=>projectIds.has(l.project_id)&&experienceIds.has(l.experience_id));
-  experiences.forEach(item=>{item.projectIds=relationships.filter(l=>l.experience_id===item.id).map(l=>l.project_id);item.sampleConnections=relationships.some(l=>l.experience_id===item.id&&l.sample);});
+  const projects=select('projects'),experiences=select('experiences');
   const credentials=select('credentials'),gallery=select('gallery'),community=select('community');
   const communityPages=categories.map(([id,title,intro])=>{const items=community.filter(e=>e.category===id).map(({id:entryId,...e})=>({...e,entryId}));return {id,path:'/'+id+'/',title,intro,entries:items,summary:items.map(e=>e.role).join(' · ')||'Details will be added here.',sampleNote:items.some(e=>e.sample)?'Sample entry. Event details will be added here.':null};});
-  const content={profile,projects,githubActivity,deployed:projects.filter(p=>p.kind==='deployed'),recorded:projects.filter(p=>p.kind==='recorded'),featured:projects.filter(p=>p.featured).sort((a,b)=>a.featureOrder-b.featureOrder).map(p=>({...p,summary:p.role||p.purpose||'',tools:p.tools.join(' · ')})),experiences,credentials,communityPages,gallery,relationships,basePath:'/'};
+  const content={profile,projects,githubActivity,deployed:projects.filter(p=>p.kind==='deployed'),recorded:projects.filter(p=>p.kind==='recorded'),featured:projects.filter(p=>p.featured).sort((a,b)=>a.featureOrder-b.featureOrder).map(p=>({...p,summary:p.role||p.purpose||'',tools:p.tools.join(' · ')})),experiences,credentials,communityPages,gallery,basePath:'/'};
   content.counts=Object.fromEntries(COLLECTIONS.map(c=>[c,select(c).length]));
   content.routes=getRoutes(content);
-  content.assistantContent={profile,projects,experiences,credentials,communityPages,gallery,relationships,basePath:content.basePath};
+  content.assistantContent={profile,projects,experiences,credentials,communityPages,gallery,basePath:content.basePath};
   return content;
 }
 export function getRoutes(content){
@@ -67,6 +65,5 @@ export function getRoutes(content){
   return [{path:'/',title:name+' — '+(content.profile?.role||'Portfolio'),description:content.profile?.intro||'Selected work and experience.'},...[
     ['/projects/','Projects','Deployed websites, recorded walkthroughs, and development projects.'],['/experience/','Experience','Internships, independent work, and student leadership.'],['/credentials/','Credentials','Certifications, speaking, hackathons, and other recognition.'],
     ...(content.communityPages||[]).map(p=>[p.path,p.title,p.intro]),['/gallery/','Gallery','Moments from speaking, community, and building.'],
-    ...(content.experiences||[]).map(e=>['/experience/'+slug.parse(e.id)+'/',e.organization,e.description||'Experience details.'])
   ].map(([path,title,description])=>({path,title:title+' — '+name,description}))];
 }

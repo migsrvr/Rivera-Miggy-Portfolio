@@ -7,12 +7,18 @@ const state = {csrf:null,user:null,entries:[],relationships:[],assets:[],release
 const text = (key,label,options={}) => ({key,label,type:'text',...options});
 const long = (key,label,options={}) => text(key,label,{type:'textarea',...options});
 const asset = (key,label,options={}) => text(key,label,{asset:true,...options});
+const experienceMetadata = [
+  text('startDate','Start date',{help:'Use YYYY-MM or display text. Leave blank when unknown.'}),
+  text('endDate','End date',{help:'Use YYYY-MM or display text. Blank means Present when a start date is set.'}),
+  text('employmentType','Employment type',{help:'For example: Internship, Full-time, Freelance, or Student leadership.'}),
+  text('location','Location'),text('workMode','Work mode',{help:'For example: On-site, Hybrid, or Remote.'}),
+];
 const fields = {
   profile:[text('name','Display name',{required:true}),text('fullName','Full name'),text('role','Role'),long('intro','Introduction'),long('current','Current activity'),text('email','Contact email',{type:'email'}),asset('resume','Résumé file or URL',{external:true}),text('github','GitHub URL',{help:'Your GitHub profile URL. Public contributions refresh when previewing or publishing.'}),long('techStack','Tech stack',{type:'lines',help:'One technology per line, in display order. Leave blank to use tools from visible projects. Built-in logos: JavaScript, Python, FastAPI, Flask, PostgreSQL, Supabase, SQLite, Vercel. Other names display as text.'}),text('linkedin','LinkedIn URL'),asset('photo','Profile photo'),text('photoAlt','Photo alternative text'),text('photoCaption','Photo caption')],
   projects:[text('title','Title',{required:true}),text('kind','Project kind',{type:'select',choices:['deployed','recorded']}),text('role','Role'),long('purpose','Purpose'),long('contribution','Contribution'),long('tools','Tools',{type:'lines',help:'One tool per line.'}),text('url','Live site URL'),text('repositoryUrl','Repository URL'),text('videoUrl','External video URL',{help:'Use an external video URL. Video uploads are not supported.'}),asset('poster','Video poster'),text('mark','Short mark'),text('featureOrder','Featured order',{type:'number'}),long('stages','Workflow stages (JSON)',{type:'json',help:'Optional array of objects: title, detail (an array of strings), shortTitle, shortDetail. Leave blank for no stages.'})],
-  experiences:[text('role','Role',{required:true}),text('organization','Organization',{required:true}),long('description','Description'),asset('logo','Logo'),text('startDate','Start date'),text('endDate','End date')],
+  experiences:[text('role','Role',{required:true}),text('organization','Organization',{required:true}),long('description','Description'),asset('logo','Logo'),...experienceMetadata],
   credentials:[text('name','Credential name',{required:true}),text('provider','Provider',{required:true}),asset('logo','Logo'),asset('url','Verification URL or certificate',{external:true}),text('linkLabel','Link label',{help:'Use “View certificate” for a document or “Verify” for issuer verification.'}),text('date','Date'),text('category','Category')],
-  community:[text('category','Category',{type:'select',choices:['hackathons','leadership','organizations']}),text('role','Role',{required:true}),text('organization','Organization'),long('description','Description'),asset('logo','Logo'),text('startDate','Start date'),text('endDate','End date')],
+  community:[text('category','Category',{type:'select',choices:['hackathons','leadership','organizations']}),text('role','Role',{required:true}),text('organization','Organization'),long('description','Description'),asset('logo','Logo'),...experienceMetadata],
   gallery:[text('title','Title',{required:true}),long('caption','Caption'),asset('image','Image'),text('alt','Image alternative text'),text('date','Date')],
 };
 

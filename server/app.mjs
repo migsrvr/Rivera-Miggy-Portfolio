@@ -19,7 +19,7 @@ import {COLLECTIONS,validateEntry,validateDraft} from '../src/model.mjs';
 const id=z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).max(80);
 const assetId=z.string().uuid();
 const linkSchema=z.object({project_id:id,experience_id:id,sample:z.boolean().default(false)});
-const fileTypes={'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.pdf':'application/pdf','.ttf':'font/ttf','.txt':'text/plain; charset=utf-8','.mp4':'video/mp4','.webm':'video/webm'};
+const fileTypes={'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.jfif':'image/jpeg','.webp':'image/webp','.pdf':'application/pdf','.ttf':'font/ttf','.txt':'text/plain; charset=utf-8','.mp4':'video/mp4','.webm':'video/webm'};
 function equal(a,b){if(typeof a!=='string'||typeof b!=='string')return false;const x=Buffer.from(a),y=Buffer.from(b);return x.length===y.length&&timingSafeEqual(x,y);}
 function validateSnapshot(draft){try{validateDraft(draft);}catch(error){if(error instanceof z.ZodError)throw error;throw new AppError(422,error.message);}}
 
@@ -106,9 +106,10 @@ export async function createApp({config=loadConfig(),database,auth,publisher=new
     if(decoded.includes('\0')||decoded.includes('\\'))throw new AppError(400,'Invalid path.');
     const folder=path.resolve(root),file=path.resolve(folder,'.'+decoded);
     if(file!==folder&&!file.startsWith(folder+path.sep))throw new AppError(403,'Invalid path.');
-    let target=file,info;try{info=await stat(target);}catch{}
+    const retiredExperience=/^\/experience\/(?!index\.html$).+/i.test(path.posix.normalize(decoded));
+    let target=file,info;if(!retiredExperience)try{info=await stat(target);}catch{}
     if(info?.isDirectory()){if(!decoded.endsWith('/'))return reply.redirect(request.url.split('?')[0]+'/');target=path.join(target,'index.html');}
-    try{const data=await readFile(target);reply.type(fileTypes[path.extname(target)]||'application/octet-stream');if(!request.url.startsWith('/admin'))reply.header('Cache-Control','no-cache');return reply.send(data);}catch{
+    try{if(retiredExperience)throw new AppError(404,'Page not found.');const data=await readFile(target);reply.type(fileTypes[path.extname(target)]||'application/octet-stream');if(!request.url.startsWith('/admin'))reply.header('Cache-Control','no-cache');return reply.send(data);}catch{
       reply.code(404);try{return reply.type('text/html').send(await readFile(path.join(folder,'404.html')));}catch{return reply.send({error:{message:'Page not found.'}});}
     }
   }

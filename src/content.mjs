@@ -2,7 +2,7 @@
 export const profile = {
   name: 'Miggy Rivera', fullName: 'Miggy G. Rivera', role: 'Software developer',
   intro: 'I’m an Information Technology student at Jose Rizal University. I build web applications, APIs, and tools for complex workflows.',
-  current: 'Currently interning at Top Realty Corporation.',
+  current: 'Currently interning at Top Realty Corporation and serving as The Vice President External at AWS Student Builder Group - JRU.',
   email: 'rivera.dev.miggy@gmail.com', resume: '/assets/resume.pdf', github: 'https://github.com/migsrvr', linkedin: null,
   photo: '/assets/stage-speaking.png', photoAlt: 'Miggy Rivera speaking into a microphone on stage at a general assembly.',
 };
@@ -11,18 +11,28 @@ export const deployed = [
   {id:'aws-website',title:'AWS Website',role:'Web Development Lead · AWS SBG–JRU',
     purpose:'The organization’s website brings projects, events, and registration into one platform.',
     contribution:'I led development and built most of the site, including centralized registration, the admin review dashboard, and automated email notifications.',
-    tools:['JavaScript','FastAPI','Supabase','Vercel'],url:null,repositoryUrl:null},
-  ...[
-    ['aws-photobooth','AWS Photobooth'],['care-cures','Care Cures'],['mediseena','Mediseena'],['pax-virentia','Pax Virentia'],
-  ].map(([id,title])=>({id,title,role:null,purpose:null,contribution:null,tools:[],url:null,repositoryUrl:null})),
+    tools:['JavaScript','FastAPI','Supabase','Vercel'],url:'https://www.awssbgjru.me',repositoryUrl:'https://github.com/migsrvr/awssbgjru'},
+  {id:'aws-photobooth',title:'AWS Photobooth',role:'Solo Full Stack Developer',purpose:'Event photobooth kiosk for capturing, printing, and emailing photos.',
+    contribution:'Served as the sole full stack developer.',tools:['React','FastAPI','Vercel','Railway'],url:'https://aws-photobooth.vercel.app',repositoryUrl:'https://github.com/migsrvr/AWS-Photobooth'},
+  {id:'care-cures',title:'Care Cures',role:'Solo Full Stack Developer',purpose:'Bilingual (English/Tagalog) health information on the Philippines’ 20 priority diseases.',
+    contribution:'Served as the sole full stack developer on a freelance project for nursing students at the University of Makati.',tools:['Next.js','TypeScript','Supabase','Vercel'],url:'https://health-service-one.vercel.app',repositoryUrl:'https://github.com/migsrvr/Health-Service'},
+  {id:'mediseena',title:'Mediseena',role:'Project Manager / Full Stack Developer',purpose:'Turns handwritten and printed prescriptions into structured, reviewable digital records.',
+    contribution:'Managed the project and contributed to full stack development.',tools:['React','Supabase','Google Gemini','Tesseract.js','Vercel'],url:'https://mediseena.vercel.app',repositoryUrl:'https://github.com/migsrvr/Mediseena'},
+  {id:'pax-virentia',title:'Pax Virentia',role:'Project Manager / Full Stack Developer',purpose:'Economic and environmental simulation for water-treatment operating scenarios.',
+    contribution:'Managed the project and contributed to full stack development.',tools:['React','TypeScript','FastAPI','PostgreSQL','Vercel'],url:'https://pax-virentia.vercel.app',repositoryUrl:'https://github.com/migsrvr/Pax-Virentia'},
+  {id:'hydra',title:'Hydra',mark:'HY',role:'AI Engineer / Backend Developer',purpose:'Public infrastructure transparency and risk screening.',
+    contribution:'Built a pipeline to validate, geocode, and analyze public infrastructure records, with a rule-based risk engine. Developed as a hackathon project.',tools:['Python','Flask','SQLite'],url:null,videoUrl:null,repositoryUrl:null,poster:null},
+  {id:'rule-vii',title:'Rule VII',mark:'VII',role:'AI Engineer / Full Stack Developer',purpose:'Architectural regulation retrieval.',
+    contribution:'Built document extraction, hybrid retrieval, and authenticated APIs for searching architectural regulations.',tools:['Next.js','FastAPI','Supabase','pgvector','Groq'],url:'https://rule-vii-frontend.vercel.app',videoUrl:null,repositoryUrl:'https://github.com/migsrvr/Rule-VII---AI-Architect',poster:null},
 ];
 
 export const recorded = [
-  {id:'hydra',title:'Hydra',mark:'HY',purpose:'Public infrastructure transparency and risk screening.',
-    contribution:'Built a pipeline to validate, geocode, and analyze public infrastructure records, with a rule-based risk engine.',videoUrl:null,repositoryUrl:null,poster:null},
-  {id:'rule-vii',title:'Rule VII',mark:'VII',purpose:'Architectural regulation retrieval.',
-    contribution:'Built document extraction, hybrid retrieval, and authenticated APIs for searching architectural regulations.',videoUrl:null,repositoryUrl:null,poster:null},
-  ...[['hima-paiflow','Hima-Paiflow','HP'],['desktop-widget','Desktop-Widget','DW'],['snea','SNEA','SN']].map(([id,title,mark])=>({id,title,mark,purpose:'Project walkthrough to be added.',contribution:null,videoUrl:null,repositoryUrl:null,poster:null})),
+  {id:'hima-paiflow',title:'Hima-Paiflow',mark:'HP',role:'Full Stack Mobile Developer',
+    purpose:'Project walkthrough to be added.',contribution:'Handled full stack mobile development for a hackathon project.',videoUrl:null,repositoryUrl:null,poster:null},
+  {id:'desktop-widget',title:'Desktop-Widget',mark:'DW',role:'Full Stack Desktop Developer',
+    purpose:'Project walkthrough to be added.',contribution:'Handled full stack desktop development.',videoUrl:null,repositoryUrl:null,poster:null},
+  {id:'snea',title:'SNEA',mark:'SN',role:'Full Stack Mobile Developer',
+    purpose:'Project walkthrough to be added.',contribution:'Handled full stack mobile development for an engineering student as freelance work.',videoUrl:null,repositoryUrl:null,poster:null},
 ];
 
 export const featured = [
@@ -30,17 +40,38 @@ export const featured = [
     contribution:'Led development and built most of the site, from registration to admin review and email.',tools:'JavaScript · FastAPI · Supabase',
     stages:[{title:'Registration',detail:['Applicant details','Database storage'],shortTitle:'Register',shortDetail:'Applicants'},{title:'Review',detail:['Admin dashboard','Application status'],shortTitle:'Review',shortDetail:'Statuses'},{title:'Notifications',detail:['Email workflow','Application updates'],shortTitle:'Email',shortDetail:'Updates'}]},
   {id:'rule-vii',title:'Rule VII',summary:'Architectural regulation retrieval.',
-    contribution:'Built document extraction, hybrid search, and secured APIs for architectural regulations.',tools:'Python · FastAPI · PostgreSQL',
+    contribution:'Built document extraction, hybrid search, and secured APIs for architectural regulations.',tools:'Next.js · FastAPI · Supabase · Groq',
     stages:[{title:'Documents',detail:['Building Code','Fire Code · BP 344'],shortTitle:'Documents',shortDetail:'Codes'},{title:'Indexing',detail:['Parsing','Vector storage'],shortTitle:'Indexing',shortDetail:'Vectors'},{title:'Retrieval',detail:['Semantic search','Keyword search'],shortTitle:'Retrieval',shortDetail:'Passages'}]},
   {id:'hydra',title:'HYDRA',summary:'Flood control transparency system.',
     contribution:'Built a public-project data pipeline and rule-based risk screening for infrastructure records.',tools:'Python · Flask · SQLite',
     stages:[{title:'Records',detail:['Public project data','Contractor records'],shortTitle:'Records',shortDetail:'Projects'},{title:'Processing',detail:['Validation','Geocoding'],shortTitle:'Processing',shortDetail:'Validation'},{title:'Risk screening',detail:['Costs & timelines','Project anomalies'],shortTitle:'Risk screening',shortDetail:'Risk flags'}]},
 ];
 
+const awsWebLeadership = {
+  role:'Web Developer Lead',organization:'AWS Student Builder Group — JRU',
+  description:'Led a team of 10 developers in building the organization’s official website using Vanilla JavaScript, HTML5, CSS3, and Supabase, deployed on Vercel. Managed Git workflows, weekly sprints, and code reviews while mentoring members in Git, JavaScript, and web fundamentals. Delivered a responsive site with WebP assets, caching, prerendering, and an integrated AI chatbot, and refined the interface through user testing.',
+  startDate:'2026-01',endDate:null,employmentType:'Student leadership',location:null,workMode:'Hybrid',logo:'/assets/aws_student_builder_group_jru_logo.jfif',
+};
+const awsExternalLeadership = {
+  role:'Vice President of External Affairs',organization:'AWS Student Builder Group — JRU',
+  description:'Lead external relations and partnership strategy from outreach through MOA execution. Onboarded two official partners, including AWS Learning Club – Polar Chapter, and manage 5–10 partnership inquiries monthly. Represent the organization at AWS, Canva, and StellarX events, supervise the Relations Committee, draft formal correspondence, and evaluate proposals against the organization’s CBL and community interests.',
+  startDate:'2026-04',endDate:null,employmentType:'Student leadership',location:null,workMode:'Hybrid',logo:'/assets/aws_student_builder_group_jru_logo.jfif',
+};
+
 export const experiences = [
-  {id:'top-realty',projectIds:['hydra','snea'],role:'Intern',organization:'Top Realty Corporation',description:'Currently completing an internship at Top Realty Corporation.',logo:null},
-  {id:'freelance',projectIds:['care-cures','mediseena','pax-virentia','rule-vii'],role:'Freelance developer',organization:'Independent commissions',description:'Completed two freelance projects for nursing and engineering students.',logo:null},
-  {id:'aws-sbg-jru',projectIds:['aws-website','aws-photobooth','hima-paiflow','desktop-widget'],role:'Web Development Lead',organization:'AWS Student Builder Group — JRU',description:'Led development and built most of the AWS Website, including registration, admin review, and automated email notifications.',logo:null},
+  {id:'top-realty',projectIds:[],role:'Information Technology Intern',organization:'Top Realty Corporation',
+    description:'Currently completing an information technology internship at Top Realty Corporation.',
+    startDate:'2026-10',endDate:null,employmentType:'Internship',location:'Makati, National Capital Region, Philippines',workMode:'On-site',logo:'/assets/top_realty_corporation_logo.jfif'},
+  {id:'workflow-ph',projectIds:[],role:'Tech Officer',organization:'WorkFlow PH',description:null,
+    startDate:'2026-02',endDate:null,employmentType:'Full-time',location:null,workMode:null,logo:'/assets/WorkFlowPH.jfif'},
+  {id:'aws-external-affairs',projectIds:[],...awsExternalLeadership},
+  {id:'aws-sbg-jru',projectIds:['aws-website'],...awsWebLeadership},
+  {id:'flyrank-ai',projectIds:[],role:'Backend AI Engineer Intern',organization:'FlyRank AI',
+    description:'Completed an internship focused on backend AI engineering at FlyRank AI.',
+    startDate:'2026-06',endDate:'2026-09',employmentType:'Internship',location:'Chicago, Illinois, United States',workMode:'Remote',logo:'/assets/flyrank_logo.jfif'},
+  {id:'freelance',projectIds:['care-cures','snea'],role:'Freelance developer',organization:'Independent commissions',
+    description:'Completed two freelance projects for nursing and engineering students.',
+    startDate:null,endDate:null,employmentType:'Freelance',location:null,workMode:null,logo:'/assets/favicon.svg'},
 ];
 
 // Approved mockup entries. Replace with actual certificate names and providers.
@@ -60,8 +91,8 @@ export const communityPages = [
     intro:'Student leadership and development responsibilities.',
     summary:'AWS SBG–JRU leadership roles.',
     entries:[
-      {role:'Web Development Lead',organization:'AWS Student Builder Group — JRU',description:'Led development and built most of the AWS Website, including centralized registration, admin review, and automated email notifications.',logo:null},
-      {role:'VP of External Affairs',organization:'AWS Student Builder Group — JRU',description:null,logo:null},
+      {...awsWebLeadership},
+      {...awsExternalLeadership},
     ],
   },
   {
@@ -69,15 +100,14 @@ export const communityPages = [
     intro:'Student groups and campus communities.',
     summary:'AWS SBG–JRU and Notion Campus Leader.',
     entries:[
-      {role:'AWS Student Builder Group — JRU',organization:'Jose Rizal University',description:'Web Development Lead · VP of External Affairs',logo:null},
+      {role:'AWS Student Builder Group — JRU',organization:'Jose Rizal University',description:awsWebLeadership.role+' · '+awsExternalLeadership.role,logo:'/assets/aws_student_builder_group_jru_logo.jfif'},
       {role:'Notion Campus Leader',organization:'Notion',description:null,logo:null},
     ],
   },
 ];
 
-// Sample project connections are approved mockup data; replace projectIds above.
+// Project connections above include only owner-confirmed experience associations.
 export const gallery = [
-  {id:'on-stage',title:'On stage',caption:'Speaking at a general assembly.',image:profile.photo,alt:profile.photoAlt},
   {id:'community',title:'Community moments',caption:'Photo to be added',image:null},
   {id:'hackathons',title:'Hackathons',caption:'Photo to be added',image:null},
   {id:'behind-the-scenes',title:'Behind the scenes',caption:'Photo to be added',image:null},
@@ -91,5 +121,4 @@ export const routes = [
   {path:'/credentials/',title:'Credentials — Miggy Rivera',description:'Certifications, speaking, hackathons, and other recognition.'},
   ...communityPages.map(page=>({path:page.path,title:page.title+' — Miggy Rivera',description:page.intro})),
   {path:'/gallery/',title:'Gallery — Miggy Rivera',description:'Moments from speaking, community, and building.'},
-  ...experiences.map(item=>({path:'/experience/'+item.id+'/',title:item.organization+' — Miggy Rivera',description:item.description})),
 ];

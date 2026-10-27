@@ -24,9 +24,9 @@ Use `npm run owner:setup` to set credentials interactively or `npm run owner:pre
 
 Edit Profile, Projects, Experiences, Credentials, Community, or Gallery. Save draft, open a protected Preview draft, then Publish locally. A successful build switches the public site to an immutable release. Restoring an older release does not overwrite the draft.
 
-Uploads are private by default. Approve an asset for public use before publishing an entry that references it. Images support JPEG/PNG/WebP up to 10 MB; PDFs up to 20 MB. Videos use external links. Projects may connect to zero, one, or several experiences. Up to three visible projects can be featured.
+Uploads are private by default. Approve an asset for public use before publishing an entry that references it. Images support JPEG/PNG/WebP up to 10 MB; PDFs up to 20 MB. Videos use external links. Experiences and Community support optional start/end months, employment type, location, and work mode. Use YYYY-MM or existing display text; an empty end date means Present only when a start date is supplied. Home shows compact periods; full pages and guide answers include supplied work context. Projects may connect to zero, one, or several experiences in the authenticated admin. These associations stay private. Public Experience rows are plain text with supplied descriptions; individual detail URLs return 404. Up to three visible projects can be featured.
 
-Current sample credentials, missing URLs, and temporary project associations stay explicitly labeled until replaced with real references. The guide derives its answers from the active published content and uses no external AI service.
+Current sample credentials and hackathon entries stay explicitly labeled until replaced with real references. Project roles and brief contributions are owner-confirmed. The three factual experience associations are Care Cures/SNEA → freelance work and AWS Website → AWS SBG–JRU; other projects remain unlinked until their context is confirmed. These connections are preserved for owner editing and omitted from public HTML and embedded JSON. The guide derives its answers from the active published content and uses no external AI service.
 
 ## Documentation
 

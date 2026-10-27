@@ -1,6 +1,61 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import os from 'node:os';
+import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
+
+test('retired experience URLs return 404 even in older active releases and authenticated previews',async()=>{
+  const {createApp}=await import('../../server/app.mjs');
+  const {Publisher}=await import('../../server/publisher.mjs');
+  const root=await mkdtemp(path.join(os.tmpdir(),'portfolio-retired-http-'));
+  const releaseId=crypto.randomUUID();let app;
+  try{
+    for(const folder of [`releases/${releaseId}`,'previews/old-preview']){
+      const target=path.join(root,'.local',folder);
+      await mkdir(path.join(target,'experience/freelance'),{recursive:true});
+      await writeFile(path.join(target,'index.html'),'HOME');
+      await writeFile(path.join(target,'experience/freelance/index.html'),'OLD DETAIL');
+      await writeFile(path.join(target,'experience/index.html'),'EXPERIENCE LIST');
+      await writeFile(path.join(target,'404.html'),'Page not found.');
+    }
+    await writeFile(path.join(root,'.local/active-release.json'),JSON.stringify({id:releaseId}));
+    const publisher=new Publisher({root});
+    app=await createApp({config:{root,origin:'http://127.0.0.1:4173',configured:false,secure:false},publisher,
+      auth:{authenticate:async()=>({user:{email:'test@portfolio.local'},csrf:'csrf'})},repository:()=>({})});
+    publisher.previews.set('old-preview',path.join(root,'.local/previews/old-preview'));
+    for(const prefix of ['/','/admin/preview/old-preview/']){
+      assert.equal((await app.inject(prefix+'experience/')).body,'EXPERIENCE LIST');
+      for(const suffix of ['experience/freelance/','experience/freelance','experience/freelance/index.html','experience/%66reelance/','experience%2Ffreelance%2F','Experience/Freelance/']){
+        for(const method of ['GET','HEAD']){
+          const response=await app.inject({method,url:prefix+suffix});
+          assert.equal(response.statusCode,404,method+' '+prefix+suffix);
+          assert.ok(!response.body.includes('OLD DETAIL'));
+        }
+      }
+    }
+  }finally{await app?.close();await rm(root,{recursive:true,force:true});}
+});
+
+test('JFIF logos are served as JPEG images in public pages and private previews',async()=>{
+  const {createApp}=await import('../../server/app.mjs');
+  const {Publisher}=await import('../../server/publisher.mjs');
+  const root=await mkdtemp(path.join(os.tmpdir(),'portfolio-logo-mime-'));
+  const bytes=Buffer.from([0xff,0xd8,0xff,0xe0,0x00,0x10]);
+  let app;
+  try{
+    for(const folder of ['dist/assets','.local/previews/logo-test/assets']){
+      await mkdir(path.join(root,folder),{recursive:true});await writeFile(path.join(root,folder,'logo.jfif'),bytes);
+    }
+    const publisher=new Publisher({root});
+    app=await createApp({config:{root,origin:'http://127.0.0.1:4173',configured:false,secure:false},publisher,
+      auth:{authenticate:async()=>({user:{email:'test@portfolio.local'},csrf:'csrf'})},repository:()=>({})});
+    publisher.previews.set('logo-test',path.join(root,'.local/previews/logo-test'));
+    for(const url of ['/assets/logo.jfif','/admin/preview/logo-test/assets/logo.jfif']){
+      const response=await app.inject(url);assert.equal(response.statusCode,200);
+      assert.match(response.headers['content-type'],/^image\/jpeg\b/);assert.deepEqual(response.rawPayload,bytes);
+    }
+  }finally{await app?.close();await rm(root,{recursive:true,force:true});}
+});
 
 test('unconfigured backend serves the portfolio and admin shell but never pretends to authenticate',async()=>{
   const {createApp}=await import('../../server/app.mjs');

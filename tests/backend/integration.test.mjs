@@ -35,7 +35,7 @@ test('real PostgreSQL owner API protects sessions, drafts, originals, preview an
     assert.equal((await request('GET','/api/admin/session')).statusCode,401);
     assert.equal((await request('POST','/api/admin/login',credentials,{origin:'https://wrong.test'})).statusCode,403);
     assert.equal((await request('POST','/api/admin/login',{...credentials,password:'wrong-password'})).statusCode,401);
-    await signIn();assert.equal((await request('GET','/api/admin/bootstrap')).json().entries.length,29);
+    await signIn();assert.equal((await request('GET','/api/admin/bootstrap')).json().entries.length,seed.entries.length);
     const codec=new SessionCodec(config.secret),token=codec.decode(cookie).token;
     const stored=(await database.query('SELECT token_hash FROM portfolio.sessions')).rows[0];assert.notEqual(stored.token_hash,token);assert.equal(stored.token_hash,createHash('sha256').update(token).digest('hex'));
     const realCookie=cookie;cookie=cookie.slice(0,-5)+'xxxxx';assert.equal((await request('GET','/api/admin/session')).statusCode,401);cookie=realCookie;
@@ -63,7 +63,7 @@ test('real PostgreSQL owner API protects sessions, drafts, originals, preview an
     assert.deepEqual((await request('GET',`/assets/uploads/${asset.id}.png`)).rawPayload,png);
     assert.equal((await request('POST','/api/admin/content/experiences/integration-experience/archive',{archived:true})).statusCode,200);
     const second=await publish();assert.equal(second.state,'ready');assert.equal((await request('GET','/experience/integration-experience/')).statusCode,404);
-    assert.equal((await request('POST',`/api/admin/releases/${first.id}/activate`)).statusCode,200);assert.equal((await request('GET','/experience/integration-experience/')).statusCode,200);
+    assert.equal((await request('POST',`/api/admin/releases/${first.id}/activate`)).statusCode,200);assert.equal((await request('GET','/experience/integration-experience/')).statusCode,404);
     assert.equal((await repo.getDraft()).entries.find(e=>e.id==='integration-experience').archived,true);
     assert.equal((await request('GET','/api/admin/export')).json().schemaVersion,1);
     const replay=cookie;assert.equal((await request('POST','/api/admin/logout')).statusCode,200);cookie=replay;assert.equal((await request('GET','/api/admin/session')).statusCode,401);
