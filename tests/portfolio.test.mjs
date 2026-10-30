@@ -23,6 +23,20 @@ test('all seven routes have one h1, real navigation, correct current state, and 
   assert.deepEqual(routes.map(r=>r.path),['/','/projects/','/experience/','/credentials/','/hackathons/','/leadership/','/organizations/']);
   for(const route of routes){const html=renderPage(route.path);assert.equal((html.match(/<h1[\s>]/g)||[]).length,1);assert.match(html,/<html lang="en"/);assert.match(html,/href="\/projects\/"/);assert.match(html,/href="\/experience\/"/);assert.match(html,/href="\/credentials\/"/);assert.doesNotMatch(html,/href="#"|javascript:|href="\/practice\//);if(['/projects/','/experience/','/credentials/'].includes(route.path))assert.match(html,new RegExp('href="'+route.path+'"[^>]*aria-current="page"'));}
 });
+test('public canonical and share URLs use the custom domain while preview navigation stays local',()=>{
+  for(const route of routes){
+    const expected='https://www.miggyrivera.tech'+route.path;
+    const html=renderPage(route.path);
+    assert.ok(html.includes(`<link rel="canonical" href="${expected}">`));
+    assert.ok(html.includes(`<meta property="og:url" content="${expected}">`));
+    assert.doesNotMatch(html,/miggy-rivera\.vercel\.app/);
+  }
+  const preview=renderPage('/projects/',{...content,basePath:'/admin/preview/domain/'});
+  assert.match(preview,/<link rel="canonical" href="https:\/\/www\.miggyrivera\.tech\/projects\/">/);
+  assert.match(preview,/href="\/admin\/preview\/domain\/experience\/"/);
+  assert.doesNotMatch(preview,/https:\/\/www\.miggyrivera\.tech\/admin\//);
+});
+
 test('projects render every live project and no demo player',()=>{
   const html=renderPage('/projects/');for(const p of deployed)assert.ok(html.includes(p.title));
   assert.doesNotMatch(html,/Recorded work|demo-|data-play-demo|Video preview|<iframe|<video|youtube/i);
