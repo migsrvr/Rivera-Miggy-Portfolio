@@ -122,7 +122,7 @@ Layered sheets and outlined entries distinguish project browsing. Experience, co
 
 The owner admin extends this world through plain labeled forms, text buttons, and ruled reading lists. It uses the same palette and fonts, with restrained task-oriented spacing and explicit status text.
 
-This record describes the public folio and local `/admin/` workspace. Public authority is `src/styles.css`, `src/render.mjs`, and `src/client.mjs`; admin authority is `admin/index.html`, `admin/admin.mjs`, and `admin/admin.css`. The database draft is adapted by `src/model.mjs`; `src/content.mjs` is a seed fixture. Public pages and the guide consume a published snapshot; routes and counts follow visible content. The seed has fourteen public routes. Figma file `7rn1fyhZs4dJxqjHdJ1Xao`, page `14:233`, remains provenance: Home `14:261`/`14:263`, Projects source `27:483`/`27:484`, Experience `39:1679`/`39:1738`, Credentials `34:1443`/`34:1549`. The website labels Work as Projects. Home Practice & community links to Hackathons, Leadership, and Organizations; these pages reuse the reading shell. Publication is local; no hosted deployment is configured.
+This record describes the public folio and local `/admin/` workspace. Public authority is `src/styles.css`, `src/render.mjs`, and `src/client.mjs`; admin authority is `admin/index.html`, `admin/admin.mjs`, and `admin/admin.css`. The database draft is adapted by `src/model.mjs`; `src/content.mjs` is a seed fixture. Public pages and the guide consume a published snapshot; routes and counts follow visible content. The seed has seven public routes. Figma file `7rn1fyhZs4dJxqjHdJ1Xao`, page `14:233`, remains provenance: Home `14:261`/`14:263`, Projects source `27:483`/`27:484`, Experience `39:1679`/`39:1738`, Credentials `34:1443`/`34:1549`. The website labels Work as Projects. Home Practice & community links to Hackathons, Leadership, and Organizations; these pages reuse the reading shell. Publication is local; no hosted deployment is configured.
 
 The owner workspace uses Neon PostgreSQL through server-only `pg` queries, one scrypt-authenticated owner, persisted hashed opaque sessions, and encrypted HttpOnly SameSite Strict cookies. Private originals stay in ignored `.local/originals/`; public visitors receive static content releases and referenced approved asset copies. The dedicated `portfolio` schema revokes PUBLIC access. The current backend contract is `docs/superpowers/specs/2026-10-26-neon-migration.md`; the earlier Supabase contract is historical. This backend replacement preserves the folio, admin interaction patterns, design tokens, component previews, profile tech stack, and release-captured GitHub activity. Publication remains local.
 
@@ -205,7 +205,7 @@ Project surfaces, preview regions, and logo placeholders are square-edged. Fine 
 
 ### Navigation and text actions
 
-The fixed desktop sidebar contains identity, Home, Projects, Experience, Credentials, Gallery, community routes, and Get in touch. Active routes use white underlined text; experience details keep Experience current. At widths up to (1024 px), a sticky MR/Menu bar opens a native modal navigation dialog. Menu and Close are plain text labels. Gallery is offered in navigation, with no Home Gallery section.
+The fixed desktop sidebar contains identity, Home, Projects, Experience, Credentials, the Practice & community routes, and Get in touch. Active routes use white underlined text. At widths up to (1024 px), a sticky MR/Menu bar opens a native modal navigation dialog. Menu and Close are plain text labels. Practice & community retains Hackathons, Leadership, and Organizations; Gallery is absent from both navigation layouts.
 
 Text links retain their (8 px) SVG gap and (44 px) minimum height. Keyboard focus uses a (1 px) white outline with (5 px) offset. Résumé opens the supplied local PDF; Email is a real mailto link. GitHub/LinkedIn remain omitted while their URLs are null.
 
@@ -237,11 +237,11 @@ All visible recorded choices remain available in stable order; the seed contains
 
 Seed video URLs/posters are missing: the player says Video preview pending and disables Demo coming soon. When a valid source is configured, explicit Play loads a privacy-enhanced YouTube iframe or native video with controls. The built implementation does not inherit the Figma prototype's illustrative Playing state.
 
-### Gallery and native dialogs
+### Native dialogs
 
-Gallery is a two-column (2×2) image grid, stacking into one column at (600 px). The seed contains one supplied stage photo and three visibly empty Photo to be added slots; the current snapshot supplies the entries. The actual photo is a button opening a native lightbox; empty slots are not interactive. Captions remain plain text. Gallery images use reversible grayscale and the existing external-arrow SVG.
+Gallery is retired from the public portfolio, including its grid, empty photo slots, and lightbox. The Home profile photograph remains part of the introduction. Gallery admin records are retained for compatibility and excluded from public content and guide data.
 
-Navigation, the photo lightbox, and the Portfolio guide use native modal dialogs with Close/Escape/backdrop dismissal and focus return. The layout locks background scrolling while a dialog is open. Modal surfaces and borders reuse the existing palette. No new shadow or blur vocabulary is introduced.
+Navigation and the Portfolio guide use native modal dialogs with Close/Escape/backdrop dismissal and focus return. The layout locks background scrolling while a dialog is open. Modal surfaces and borders reuse the existing palette. No new shadow or blur vocabulary is introduced.
 
 ### Portfolio guide
 
@@ -259,7 +259,7 @@ Profile, Projects, Experiences, Credentials, Community, Gallery, Assets, and Rel
 
 ### Source-backed sidecar previews
 
-`.impeccable/design.json` contains ten source-derived previews: text link, sidebar navigation, real selectable sheets, clickable Experience row, credential row, recorded selector, community row link, guide composer, Admin field, and Admin primary button. The eight public previews remain intact; the two admin primitives use source-derived CSS and focus/error/pending states. SVG geometry is inlined from shipped assets. Panel previews are static states; sidebar positioning is contained for preview purposes, while the website supplies the actual fixed/dialog behavior. Gallery is documented above rather than embedding a duplicate photograph in the sidecar.
+`.impeccable/design.json` contains ten source-derived previews: text link, sidebar navigation, real selectable sheets, clickable Experience row, credential row, recorded selector, community row link, guide composer, Admin field, and Admin primary button. The eight public previews remain intact; the two admin primitives use source-derived CSS and focus/error/pending states. SVG geometry is inlined from shipped assets. Panel previews are static states; sidebar positioning is contained for preview purposes, while the website supplies the actual fixed/dialog behavior. The sidecar supplies static component references; public Gallery rendering has been retired.
 
 ## Do's and Don'ts
 

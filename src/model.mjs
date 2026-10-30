@@ -14,7 +14,7 @@ const documentUrl=text.refine(v=>cleanPath(v)||httpUrl(v)||/^asset:[0-9a-f-]{36}
 const stage=z.object({title,detail:z.array(text).max(20).default([]),shortTitle:optionalText,shortDetail:optionalText});
 const dataSchemas={
   profile:z.object({name:title,fullName:optionalText,role:optionalText,intro:optionalText,current:optionalText,email:z.string().email().nullish().default(null),resume:documentUrl,github:external,linkedin:external,photo:asset,photoAlt:optionalText,photoCaption:optionalText,techStack:z.array(title).max(40).default([])}),
-  projects:z.object({title,kind:z.enum(['deployed','recorded']),role:optionalText,purpose:optionalText,contribution:optionalText,tools:z.array(title).max(100).default([]),url:external,repositoryUrl:external,videoUrl:external,poster:asset,mark:optionalText,featured:z.boolean().default(false),featureOrder:z.number().finite().default(0),stages:z.array(stage).max(20).default([])}),
+  projects:z.object({title,role:optionalText,purpose:optionalText,contribution:optionalText,tools:z.array(title).max(100).default([]),url:external,repositoryUrl:external,featured:z.boolean().default(false),featureOrder:z.number().finite().default(0),stages:z.array(stage).max(20).default([])}),
   experiences:z.object({role:title,organization:title,description:optionalText,logo:asset,startDate:optionalText,endDate:optionalText,employmentType:optionalText,location:optionalText,workMode:optionalText}),
   credentials:z.object({name:title,provider:title,logo:asset,url:documentUrl,linkLabel:z.preprocess(value=>value??'Verify',title),date:optionalText,category:optionalText}),
   community:z.object({category:z.enum(['hackathons','leadership','organizations']),role:title,organization:optionalText,description:optionalText,logo:asset,startDate:optionalText,endDate:optionalText,employmentType:optionalText,location:optionalText,workMode:optionalText}),
@@ -33,7 +33,7 @@ export function createSeedDraft(){
   const entries=[],relationships=[];
   const add=(collection,id,data,position,sample=false)=>entries.push(validateEntry(collection,{collection,id,data,position,visible:true,archived:false,sample}));
   add('profile','profile',{...seed.profile,photoCaption:'Speaking at a general assembly.'},0);
-  [...seed.deployed.map(p=>({...p,kind:'deployed'})),...seed.recorded.map(p=>({...p,kind:'recorded'}))].forEach((project,position)=>{
+  seed.deployed.forEach((project,position)=>{
     const feature=seed.featured.find(p=>p.id===project.id);add('projects',project.id,{...project,tools:project.tools||feature?.tools.split(' · ')||[],featured:!!feature,featureOrder:seed.featured.findIndex(p=>p.id===project.id),stages:feature?.stages||[]},position);
   });
   seed.experiences.forEach(({id,projectIds,...data},position)=>{add('experiences',id,data,position);projectIds.forEach(project_id=>relationships.push({project_id,experience_id:id,sample:false}));});
@@ -52,18 +52,18 @@ export function toContent(draft){
   const parsedActivity=activitySchema.safeParse(draft.githubActivity);
   const githubActivity=parsedActivity.success&&parsedActivity.data.username.toLowerCase()===githubUsername(profile.github)?.toLowerCase()?parsedActivity.data:null;
   const projects=select('projects'),experiences=select('experiences');
-  const credentials=select('credentials'),gallery=select('gallery'),community=select('community');
+  const credentials=select('credentials'),community=select('community');
   const communityPages=categories.map(([id,title,intro])=>{const items=community.filter(e=>e.category===id).map(({id:entryId,...e})=>({...e,entryId}));return {id,path:'/'+id+'/',title,intro,entries:items,summary:items.map(e=>e.role).join(' · ')||'Details will be added here.',sampleNote:items.some(e=>e.sample)?'Sample entry. Event details will be added here.':null};});
-  const content={profile,projects,githubActivity,deployed:projects.filter(p=>p.kind==='deployed'),recorded:projects.filter(p=>p.kind==='recorded'),featured:projects.filter(p=>p.featured).sort((a,b)=>a.featureOrder-b.featureOrder).map(p=>({...p,summary:p.role||p.purpose||'',tools:p.tools.join(' · ')})),experiences,credentials,communityPages,gallery,basePath:'/'};
-  content.counts=Object.fromEntries(COLLECTIONS.map(c=>[c,select(c).length]));
+  const content={profile,projects,githubActivity,deployed:projects,featured:projects.filter(p=>p.featured).sort((a,b)=>a.featureOrder-b.featureOrder).map(p=>({...p,summary:p.role||p.purpose||'',tools:p.tools.join(' · ')})),experiences,credentials,communityPages,basePath:'/'};
+  content.counts=Object.fromEntries(COLLECTIONS.filter(c=>c!=='gallery').map(c=>[c,select(c).length]));
   content.routes=getRoutes(content);
-  content.assistantContent={profile,projects,experiences,credentials,communityPages,gallery,basePath:content.basePath};
+  content.assistantContent={profile,projects,experiences,credentials,communityPages,basePath:content.basePath};
   return content;
 }
 export function getRoutes(content){
   const name=content.profile?.name||'Portfolio';
   return [{path:'/',title:name+' — '+(content.profile?.role||'Portfolio'),description:content.profile?.intro||'Selected work and experience.'},...[
-    ['/projects/','Projects','Deployed websites, recorded walkthroughs, and development projects.'],['/experience/','Experience','Internships, independent work, and student leadership.'],['/credentials/','Credentials','Certifications, speaking, hackathons, and other recognition.'],
-    ...(content.communityPages||[]).map(p=>[p.path,p.title,p.intro]),['/gallery/','Gallery','Moments from speaking, community, and building.'],
+    ['/projects/','Projects','Live projects and code.'],['/experience/','Experience','Internships, independent work, and student leadership.'],['/credentials/','Credentials','Certifications, speaking, hackathons, and other recognition.'],
+    ...(content.communityPages||[]).map(p=>[p.path,p.title,p.intro]),
   ].map(([path,title,description])=>({path,title:title+' — '+name,description}))];
 }

@@ -20,7 +20,8 @@
     "seed": "node scripts/seed-content.mjs",
     "db:migrate": "node scripts/migrate.mjs",
     "content:import": "node scripts/import-content.mjs",
-    "owner:preserve": "node scripts/setup-owner.mjs --preserve"
+    "owner:preserve": "node scripts/setup-owner.mjs --preserve",
+    "deploy": "node scripts/deploy-vercel.mjs"
   },
   "dependencies": {
     "@fastify/cookie": "^11.1.3",

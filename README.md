@@ -22,7 +22,9 @@ Use `npm run owner:setup` to set credentials interactively or `npm run owner:pre
 
 ## Edit and publish
 
-Edit Profile, Projects, Experiences, Credentials, Community, or Gallery. Save draft, open a protected Preview draft, then Publish locally. A successful build switches the public site to an immutable release. Restoring an older release does not overwrite the draft.
+Edit Profile, Projects, Experiences, Credentials, or Community. Save draft, open a protected Preview draft, then Publish locally. A successful build switches the public site to an immutable release. Restoring an older release does not overwrite the draft.
+
+The public site has seven pages, with Hackathons, Leadership, and Organizations under Practice & community. Gallery has been retired from public navigation, pages, and guide answers. Existing Gallery records remain editable in admin but do not contribute assets to new previews or releases. Retired Gallery URLs return 404, including in older releases and authenticated previews.
 
 Uploads are private by default. Approve an asset for public use before publishing an entry that references it. Images support JPEG/PNG/WebP up to 10 MB; PDFs up to 20 MB. Videos use external links. Experiences and Community support optional start/end months, employment type, location, and work mode. Use YYYY-MM or existing display text; an empty end date means Present only when a start date is supplied. Home shows compact periods; full pages and guide answers include supplied work context. Projects may connect to zero, one, or several experiences in the authenticated admin. These associations stay private. Public Experience rows are plain text with supplied descriptions; individual detail URLs return 404. Up to three visible projects can be featured.
 

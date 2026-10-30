@@ -1,0 +1,376 @@
+--- before/.impeccable/design.json
++++ after/.impeccable/design.json
+@@ -113,7 +113,7 @@
+       "kind": "nav",
+       "refersTo": "navigation",
+       "description": "Static desktop-sidebar preview; the website fixes it at 220 px and uses a native Menu dialog below the desktop threshold.",
+-      "html": "<div class=\"ds-preview-navigation\"><aside class=\"ds-site-sidebar\"><a class=\"ds-sidebar-identity\" href=\"/\" aria-label=\"Miggy Rivera home\">Miggy Rivera<span>Software developer</span></a><nav aria-label=\"Main navigation\"><div class=\"ds-sidebar-links\"><a href=\"/\">Home</a><a href=\"/projects/\">Projects</a><a href=\"/experience/\" aria-current=\"page\">Experience</a><a href=\"/credentials/\">Credentials</a><a href=\"/gallery/\">Gallery</a></div><div class=\"ds-sidebar-community\"><p class=\"ds-nav-label\">Practice &amp; community</p><a href=\"/hackathons/\">Hackathons</a><a href=\"/leadership/\">Leadership</a><a href=\"/organizations/\">Organizations</a></div></nav><div class=\"ds-sidebar-bottom\"><a class=\"ds-sidebar-email\" href=\"mailto:rivera.dev.miggy@gmail.com\">Get in touch<svg class=\"ds-icon ds-icon-arrow-right\" aria-hidden=\"true\" preserveAspectRatio=\"none\" overflow=\"visible\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Arrow\">\n<path id=\"Vector\" d=\"M2.625 7H11.375M7 11.375L11.375 7L7 2.625\" stroke-width=\"1.1\" stroke=\"white\"/>\n</g>\n</svg></a></div></aside></div>",
++      "html": "<div class=\"ds-preview-navigation\"><aside class=\"ds-site-sidebar\"><a class=\"ds-sidebar-identity\" href=\"/\" aria-label=\"Miggy Rivera home\">Miggy Rivera<span>Software developer</span></a><nav aria-label=\"Main navigation\"><div class=\"ds-sidebar-links\"><a href=\"/\">Home</a><a href=\"/projects/\">Projects</a><a href=\"/experience/\" aria-current=\"page\">Experience</a><a href=\"/credentials/\">Credentials</a></div><div class=\"ds-sidebar-community\"><p class=\"ds-nav-label\">Practice &amp; community</p><a href=\"/hackathons/\">Hackathons</a><a href=\"/leadership/\">Leadership</a><a href=\"/organizations/\">Organizations</a></div></nav><div class=\"ds-sidebar-bottom\"><a class=\"ds-sidebar-email\" href=\"mailto:rivera.dev.miggy@gmail.com\">Get in touch<svg class=\"ds-icon ds-icon-arrow-right\" aria-hidden=\"true\" preserveAspectRatio=\"none\" overflow=\"visible\" width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Arrow\">\n<path id=\"Vector\" d=\"M2.625 7H11.375M7 11.375L11.375 7L7 2.625\" stroke-width=\"1.1\" stroke=\"white\"/>\n</g>\n</svg></a></div></aside></div>",
+       "css": ".ds-preview-navigation{background:var(--background,#0a0a0a);color:var(--white,#fff);font:400 15px/26px var(--body,Manrope,Arial,sans-serif)}.ds-preview-navigation h2,.ds-preview-navigation h3,.ds-preview-navigation p{margin:0}.ds-preview-navigation [hidden]{display:none!important}.ds-preview-navigation .ds-icon{display:block;flex:none}.ds-preview-navigation .ds-unavailable .ds-icon{opacity:.65}.ds-preview-navigation .ds-demo-thumbnail>.ds-icon{position:absolute;right:9px;bottom:9px}.ds-preview-navigation .ds-play-demo:disabled .ds-icon{opacity:.65}.ds-preview-navigation .ds-site-sidebar{position:fixed;inset:0 auto 0 0;width:220px;padding:32px 28px 24px;border-right:1px solid var(--rule,#343434);display:flex;flex-direction:column;gap:28px;background:var(--background,#0a0a0a);z-index:5;overflow-y:auto}.ds-preview-navigation .ds-sidebar-identity{font:400 25px/30px var(--display,'Libre Caslon Display',Georgia,serif)}.ds-preview-navigation .ds-sidebar-identity span{display:block;margin-top:8px;color:var(--muted,#b5b5b5);font:400 12px/20px var(--body,Manrope,Arial,sans-serif)}.ds-preview-navigation .ds-sidebar-links,.ds-preview-navigation .ds-sidebar-community{display:flex;flex-direction:column}.ds-preview-navigation .ds-site-sidebar nav a,.ds-preview-navigation .ds-navigation-dialog nav a{display:block;padding:8px 0;font-size:13px;line-height:22px;color:var(--muted,#b5b5b5)}.ds-preview-navigation .ds-site-sidebar nav [aria-current=page],.ds-preview-navigation .ds-navigation-dialog nav [aria-current=page]{color:var(--white,#fff);text-decoration:underline;text-underline-offset:6px}.ds-preview-navigation .ds-sidebar-community{margin-top:24px;padding-top:24px;border-top:1px solid var(--rule,#343434)}.ds-preview-navigation .ds-nav-label{margin-bottom:6px;color:var(--muted,#b5b5b5);font-size:11px;line-height:20px}.ds-preview-navigation .ds-sidebar-bottom{margin-top:auto;padding-top:32px}.ds-preview-navigation .ds-sidebar-email{display:flex;align-items:center;gap:8px;margin-top:16px;color:var(--muted,#b5b5b5);font-size:12px;line-height:20px;min-height:44px}.ds-preview-navigation .ds-experience-link>.ds-icon{margin-top:6px}.ds-preview-navigation .ds-navigation-dialog .ds-sidebar-links{margin-top:20px}.ds-preview-navigation a{color:inherit;text-decoration:none;text-underline-offset:5px}.ds-preview-navigation a:hover{text-decoration:underline}.ds-preview-navigation button{font:inherit;color:inherit;cursor:pointer}.ds-preview-navigation button:disabled{cursor:default}.ds-preview-navigation a:focus-visible,.ds-preview-navigation button:focus-visible,.ds-preview-navigation [tabindex]:focus-visible{outline:1px solid var(--white,#fff);outline-offset:5px}.ds-preview-navigation .ds-site-sidebar{position:static;min-height:640px;box-sizing:border-box}.ds-preview-navigation{width:220px}"
+     },
+     {
+--- before/DESIGN.md
++++ after/DESIGN.md
+@@ -122,7 +122,7 @@
+ 
+ The owner admin extends this world through plain labeled forms, text buttons, and ruled reading lists. It uses the same palette and fonts, with restrained task-oriented spacing and explicit status text.
+ 
+-This record describes the public folio and local `/admin/` workspace. Public authority is `src/styles.css`, `src/render.mjs`, and `src/client.mjs`; admin authority is `admin/index.html`, `admin/admin.mjs`, and `admin/admin.css`. The database draft is adapted by `src/model.mjs`; `src/content.mjs` is a seed fixture. Public pages and the guide consume a published snapshot; routes and counts follow visible content. The seed has fourteen public routes. Figma file `7rn1fyhZs4dJxqjHdJ1Xao`, page `14:233`, remains provenance: Home `14:261`/`14:263`, Projects source `27:483`/`27:484`, Experience `39:1679`/`39:1738`, Credentials `34:1443`/`34:1549`. The website labels Work as Projects. Home Practice & community links to Hackathons, Leadership, and Organizations; these pages reuse the reading shell. Publication is local; no hosted deployment is configured.
++This record describes the public folio and local `/admin/` workspace. Public authority is `src/styles.css`, `src/render.mjs`, and `src/client.mjs`; admin authority is `admin/index.html`, `admin/admin.mjs`, and `admin/admin.css`. The database draft is adapted by `src/model.mjs`; `src/content.mjs` is a seed fixture. Public pages and the guide consume a published snapshot; routes and counts follow visible content. The seed has seven public routes. Figma file `7rn1fyhZs4dJxqjHdJ1Xao`, page `14:233`, remains provenance: Home `14:261`/`14:263`, Projects source `27:483`/`27:484`, Experience `39:1679`/`39:1738`, Credentials `34:1443`/`34:1549`. The website labels Work as Projects. Home Practice & community links to Hackathons, Leadership, and Organizations; these pages reuse the reading shell. Publication is local; no hosted deployment is configured.
+ 
+ The owner workspace uses Neon PostgreSQL through server-only `pg` queries, one scrypt-authenticated owner, persisted hashed opaque sessions, and encrypted HttpOnly SameSite Strict cookies. Private originals stay in ignored `.local/originals/`; public visitors receive static content releases and referenced approved asset copies. The dedicated `portfolio` schema revokes PUBLIC access. The current backend contract is `docs/superpowers/specs/2026-10-26-neon-migration.md`; the earlier Supabase contract is historical. This backend replacement preserves the folio, admin interaction patterns, design tokens, component previews, profile tech stack, and release-captured GitHub activity. Publication remains local.
+ 
+@@ -205,7 +205,7 @@
+ 
+ ### Navigation and text actions
+ 
+-The fixed desktop sidebar contains identity, Home, Projects, Experience, Credentials, Gallery, community routes, and Get in touch. Active routes use white underlined text; experience details keep Experience current. At widths up to (1024 px), a sticky MR/Menu bar opens a native modal navigation dialog. Menu and Close are plain text labels. Gallery is offered in navigation, with no Home Gallery section.
++The fixed desktop sidebar contains identity, Home, Projects, Experience, Credentials, the Practice & community routes, and Get in touch. Active routes use white underlined text. At widths up to (1024 px), a sticky MR/Menu bar opens a native modal navigation dialog. Menu and Close are plain text labels. Practice & community retains Hackathons, Leadership, and Organizations; Gallery is absent from both navigation layouts.
+ 
+ Text links retain their (8 px) SVG gap and (44 px) minimum height. Keyboard focus uses a (1 px) white outline with (5 px) offset. Résumé opens the supplied local PDF; Email is a real mailto link. GitHub/LinkedIn remain omitted while their URLs are null.
+ 
+@@ -237,11 +237,11 @@
+ 
+ Seed video URLs/posters are missing: the player says Video preview pending and disables Demo coming soon. When a valid source is configured, explicit Play loads a privacy-enhanced YouTube iframe or native video with controls. The built implementation does not inherit the Figma prototype's illustrative Playing state.
+ 
+-### Gallery and native dialogs
+-
+-Gallery is a two-column (2×2) image grid, stacking into one column at (600 px). The seed contains one supplied stage photo and three visibly empty Photo to be added slots; the current snapshot supplies the entries. The actual photo is a button opening a native lightbox; empty slots are not interactive. Captions remain plain text. Gallery images use reversible grayscale and the existing external-arrow SVG.
+-
+-Navigation, the photo lightbox, and the Portfolio guide use native modal dialogs with Close/Escape/backdrop dismissal and focus return. The layout locks background scrolling while a dialog is open. Modal surfaces and borders reuse the existing palette. No new shadow or blur vocabulary is introduced.
++### Native dialogs
++
++Gallery is retired from the public portfolio, including its grid, empty photo slots, and lightbox. The Home profile photograph remains part of the introduction. Gallery admin records are retained for compatibility and excluded from public content and guide data.
++
++Navigation and the Portfolio guide use native modal dialogs with Close/Escape/backdrop dismissal and focus return. The layout locks background scrolling while a dialog is open. Modal surfaces and borders reuse the existing palette. No new shadow or blur vocabulary is introduced.
+ 
+ ### Portfolio guide
+ 
+@@ -259,7 +259,7 @@
+ 
+ ### Source-backed sidecar previews
+ 
+-`.impeccable/design.json` contains ten source-derived previews: text link, sidebar navigation, real selectable sheets, clickable Experience row, credential row, recorded selector, community row link, guide composer, Admin field, and Admin primary button. The eight public previews remain intact; the two admin primitives use source-derived CSS and focus/error/pending states. SVG geometry is inlined from shipped assets. Panel previews are static states; sidebar positioning is contained for preview purposes, while the website supplies the actual fixed/dialog behavior. Gallery is documented above rather than embedding a duplicate photograph in the sidecar.
++`.impeccable/design.json` contains ten source-derived previews: text link, sidebar navigation, real selectable sheets, clickable Experience row, credential row, recorded selector, community row link, guide composer, Admin field, and Admin primary button. The eight public previews remain intact; the two admin primitives use source-derived CSS and focus/error/pending states. SVG geometry is inlined from shipped assets. Panel previews are static states; sidebar positioning is contained for preview purposes, while the website supplies the actual fixed/dialog behavior. The sidecar supplies static component references; public Gallery rendering has been retired.
+ 
+ ## Do's and Don'ts
+ 
+--- before/PRODUCT.md
++++ after/PRODUCT.md
+@@ -16,7 +16,7 @@
+ 
+ ## Product Purpose
+ 
+-Present actual development work and professional context in a concise portfolio. Public routes provide Home (`/`), Projects (`/projects/`), Experience (`/experience/`), Credentials (`/credentials/`), Hackathons (`/hackathons/`), Leadership (`/leadership/`), Organizations (`/organizations/`), Gallery (`/gallery/`). There are eight public routes; individual Experience URLs return 404, including with older release files. The owner admin is `/admin/` at `http://127.0.0.1:4173/`; publication remains local.
++Present actual development work and professional context in a concise portfolio. Public routes provide Home (`/`), Projects (`/projects/`), Experience (`/experience/`), Credentials (`/credentials/`), Hackathons (`/hackathons/`), Leadership (`/leadership/`), Organizations (`/organizations/`). There are seven public routes; retired Gallery and individual Experience URLs return 404, including with older release files and authenticated previews. The owner admin is `/admin/` at `http://127.0.0.1:4173/`; publication remains local.
+ 
+ ## Operating Context
+ 
+@@ -31,13 +31,13 @@
+ - Visible recorded choices update one shared 16:9 player and its purpose/contribution context; the seed contains three: Hima-Paiflow, Desktop-Widget, and SNEA. Their larger preview thumbnails share one desktop row and scroll horizontally on compact screens. Both selectors support arrows, Home, and End with roving focus. Selection never starts playback. Counts, sample notices, and guide answers derive from each snapshot. Project-to-experience associations remain private admin data.
+ - Seed recordings, posters, and credential verification URLs remain absent; six deployed projects have website and repository URLs. Missing videos display Video preview pending and a disabled Demo coming soon action. Configured videos support privacy-enhanced YouTube or native MP4/WebM/Ogg playback after an explicit Play action.
+ - Featured project headers are real title-only rear sheets, with a connected active detail panel and no automatic rotation.
+-- Gallery appears in navigation only; its seed contains one supplied stage photo and three labeled empty slots. Actual photos open a native lightbox.
++- Gallery is retired from public navigation, route generation, rendered pages, and guide data. Practice & community retains Hackathons, Leadership, and Organizations with existing content and layout. Rebuilds prune obsolete Gallery output. Gallery records remain editable in admin; Gallery-only assets are excluded from preview/public builds and do not block publication. Assets shared with retained public sections still require approval.
+ - Ask about my work opens a local rule-based Portfolio guide. It answers configured facts, provides real internal links, handles unknown questions honestly, and stores nothing outside the current tab. It uses no external model, API key, or network requests.
+ - The seed Experience has six plain rows: Information Technology Intern at Top Realty Corporation; Tech Officer at WorkFlow PH; Vice President of External Affairs and Web Developer Lead at AWS Student Builder Group — JRU; Backend AI Engineer Intern at FlyRank AI; and independent freelance work. Supplied month ranges, employment type, location, and work mode appear on full pages, with only periods added to compact Home rows. AWS roles are student leadership; FlyRank ended in September 2026. Undated freelance work stays undated, and unknown WorkFlow responsibilities are omitted. Owner-supplied Top Realty, WorkFlow PH, AWS SBG–JRU, and FlyRank AI logos appear on matching entries; freelance work uses the existing MR favicon at the shared 44px organization-logo size. Experience rows on Home and the Experience list are plain reading rows without anchors, arrows, or interactive states. Supplied descriptions remain public on the list and in guide answers. Project associations remain editable in the authenticated admin; generated public content omits relationships, experience projectIds/sampleConnections, and recorded experienceLinks. Rebuilds prune obsolete detail folders, and the server blocks retired detail URLs even from older releases.
+ - The seed Credentials has six explicitly generic sample rows, each with logo, certificate name, provider, and a verification label. There are no credential cards, filters, dates, or detail pages. Missing verification links are unavailable text. A supplied document can use View certificate, which represents document evidence rather than independent verification.
+ - The seed Hackathons has one explicitly labeled sample entry because event/role/result facts are not supplied. Leadership uses the confirmed AWS Web Developer Lead and Vice President of External Affairs roles, sharing supplied descriptions, dates, and work context with Experience. Organizations uses the matching AWS role names and known Notion Campus Leader involvement. Unknown descriptions are omitted; dates, awards, logos, and duties are not invented.
+ - The complete Home community rows are keyboard-accessible anchors. Each category page has a semantic heading, plain reading rows, and Back to home.
+-- Navigation, lightbox, and guide use native dialogs with Close/Escape and focus return. Input is limited to 500 characters, empty Send is disabled, and user text is never rendered as HTML.
++- Navigation and guide use native dialogs with Close/Escape and focus return. Input is limited to 500 characters, empty Send is disabled, and user text is never rendered as HTML.
+ - Admin offers Profile, Projects, Experiences, Credentials, Community, Gallery, Assets, and Releases as plain forms and reading lists. Existing IDs are locked; position, visible, sample, and archived fields control presentation. Projects support tools, workflow stages, and zero or several experience relationships, each independently marked as a sample. Failed saves retain entered values; unsaved edits warn before leaving. Pending, empty, and error states use explicit text.
+ - Fastify protects the API and private originals for one owner using a scrypt password hash and persisted hashed opaque session tokens. Sessions expire after seven days; logout and owner reset revoke them. Encrypted HttpOnly SameSite Strict cookies carry the session and CSRF nonce; writes require Origin and CSRF checks. Database credentials stay server-only, PUBLIC access to the dedicated `portfolio` schema is revoked, and there is no public database API or account registration.
+ - Uploads accept validated JPEG/PNG/WebP images up to 10 MB and PDF documents up to 20 MB. Originals are private by default in ignored `.local/originals/`. Publishing requires explicit public approval and copies only referenced approved assets; earlier release copies remain immutable. Preview can use private assets behind owner authentication. Videos use external URLs; no remote asset ingestion runs automatically.
+--- before/README.md
++++ after/README.md
+@@ -22,7 +22,9 @@
+ 
+ ## Edit and publish
+ 
+-Edit Profile, Projects, Experiences, Credentials, Community, or Gallery. Save draft, open a protected Preview draft, then Publish locally. A successful build switches the public site to an immutable release. Restoring an older release does not overwrite the draft.
++Edit Profile, Projects, Experiences, Credentials, or Community. Save draft, open a protected Preview draft, then Publish locally. A successful build switches the public site to an immutable release. Restoring an older release does not overwrite the draft.
++
++The public site has seven pages, with Hackathons, Leadership, and Organizations under Practice & community. Gallery has been retired from public navigation, pages, and guide answers. Existing Gallery records remain editable in admin but do not contribute assets to new previews or releases. Retired Gallery URLs return 404, including in older releases and authenticated previews.
+ 
+ Uploads are private by default. Approve an asset for public use before publishing an entry that references it. Images support JPEG/PNG/WebP up to 10 MB; PDFs up to 20 MB. Videos use external links. Experiences and Community support optional start/end months, employment type, location, and work mode. Use YYYY-MM or existing display text; an empty end date means Present only when a start date is supplied. Home shows compact periods; full pages and guide answers include supplied work context. Projects may connect to zero, one, or several experiences in the authenticated admin. These associations stay private. Public Experience rows are plain text with supplied descriptions; individual detail URLs return 404. Up to three visible projects can be featured.
+ 
+--- before/scripts/build.mjs
++++ after/scripts/build.mjs
+@@ -14,6 +14,7 @@
+   const snapshot={...content,basePath},routes=getRoutes(snapshot);
+   for(const route of routes)if(!/^\/(?:[a-z0-9-]+\/)*$/.test(route.path))throw new Error('Invalid route path');
+   await mkdir(dist,{recursive:true});await cp(path.join(root,'public'),dist,{recursive:true});
++  await rm(path.join(dist,'gallery'),{recursive:true,force:true});
+   const experienceDir=path.join(dist,'experience');
+   await mkdir(experienceDir,{recursive:true});
+   for(const entry of await readdir(experienceDir,{withFileTypes:true}))if(entry.isDirectory())await rm(path.join(experienceDir,entry.name),{recursive:true,force:true});
+--- before/server/app.mjs
++++ after/server/app.mjs
+@@ -106,10 +106,11 @@
+     if(decoded.includes('\0')||decoded.includes('\\'))throw new AppError(400,'Invalid path.');
+     const folder=path.resolve(root),file=path.resolve(folder,'.'+decoded);
+     if(file!==folder&&!file.startsWith(folder+path.sep))throw new AppError(403,'Invalid path.');
+-    const retiredExperience=/^\/experience\/(?!index\.html$).+/i.test(path.posix.normalize(decoded));
+-    let target=file,info;if(!retiredExperience)try{info=await stat(target);}catch{}
++    const normalizedPath=path.posix.normalize(decoded);
++    const retiredPage=/^\/experience\/(?!index\.html$).+/i.test(normalizedPath)||/^\/gallery(?:\/|$)/i.test(normalizedPath);
++    let target=file,info;if(!retiredPage)try{info=await stat(target);}catch{}
+     if(info?.isDirectory()){if(!decoded.endsWith('/'))return reply.redirect(request.url.split('?')[0]+'/');target=path.join(target,'index.html');}
+-    try{if(retiredExperience)throw new AppError(404,'Page not found.');const data=await readFile(target);reply.type(fileTypes[path.extname(target)]||'application/octet-stream');if(!request.url.startsWith('/admin'))reply.header('Cache-Control','no-cache');return reply.send(data);}catch{
++    try{if(retiredPage)throw new AppError(404,'Page not found.');const data=await readFile(target);reply.type(fileTypes[path.extname(target)]||'application/octet-stream');if(!request.url.startsWith('/admin'))reply.header('Cache-Control','no-cache');return reply.send(data);}catch{
+       reply.code(404);try{return reply.type('text/html').send(await readFile(path.join(folder,'404.html')));}catch{return reply.send({error:{message:'Page not found.'}});}
+     }
+   }
+--- before/server/publisher.mjs
++++ after/server/publisher.mjs
+@@ -5,7 +5,8 @@
+ import {toContent,validateDraft} from '../src/model.mjs';
+ import {AppError} from './errors.mjs';
+ import {withGithubActivity} from './github.mjs';
+-const fields={profile:['photo','resume'],experiences:['logo'],credentials:['logo','url'],community:['logo'],gallery:['image']};
++// Gallery records are retained for admin compatibility and do not contribute public assets.
++const fields={profile:['photo','resume'],experiences:['logo'],credentials:['logo','url'],community:['logo']};
+ const extensions={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'};
+ const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+ export async function resolveAssets(source,repo,allowPrivate=false){
+--- before/src/assistant.mjs
++++ after/src/assistant.mjs
+@@ -4,7 +4,7 @@
+ export function answerQuestion(value,content={}){
+   const question=String(value||'').trim().slice(0,500);if(!question)return null;
+   const q=question.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+-  const {profile={},projects=[],experiences=[],credentials=[],communityPages=[],gallery=[]}=content;
++  const {profile={},projects=[],experiences=[],credentials=[],communityPages=[]}=content;
+   const name=profile.name||'the portfolio owner',base=content.basePath||'/';
+   const href=value=>value?.startsWith('/')&&!value.startsWith('//')?base+value.slice(1):value;
+   const reply=(text,links=[])=>({text,links:links.map(l=>({...l,href:href(l.href)}))});
+@@ -17,7 +17,6 @@
+   const category=/\b(hackathon|hackathons)\b/.test(q)?'hackathons':/\b(lead|leader|leadership)\b/.test(q)?'leadership':/\b(organization|organizations|community|notion)\b/.test(q)?'organizations':null;
+   if(category){const page=communityPages.find(p=>p.id===category),items=page?.entries||[];return reply((facts(items)||'No '+category+' entries are currently listed.')+sample(items),route('View '+category,'/'+category+'/'));}
+   if(/\b(credential|credentials|certification|certifications|certificate|certificates|award|awards)\b/.test(q))return reply((credentials.length?credentials.map(c=>c.name+' — '+c.provider).join('; ')+'.':'No credentials are currently listed.')+sample(credentials),route('View credentials','/credentials/'));
+-  if(/\b(photo|photos|gallery|galleries|picture|pictures)\b/.test(q)){const photos=gallery.filter(p=>p.image);return reply(photos.length?photos.map(p=>[p.title,p.caption].filter(Boolean).join(' — ')).join('; ')+'.':'No gallery photos are currently listed.',route('Open gallery','/gallery/'));}
+   if(/\b(contact|email|hire|resume|cv|reach|touch)\b/.test(q)){const links=[];if(profile.email)links.push({label:'Email '+name,href:'mailto:'+profile.email});if(profile.resume)links.push({label:'Open résumé',href:profile.resume});return reply(links.length?'Contact details for '+name+' are linked below.':'No contact details are currently listed.',links);}
+   if(/\b(project|projects|build|built|work|website|websites|stack|skills|tools)\b/.test(q))return reply(projects.length?`${projects.length} project${projects.length===1?' is':'s are'} listed: ${projects.map(p=>p.title).join(', ')}.`+sample(projects):'No projects are currently listed.',route('View projects','/projects/'));
+   if(/\b(about|hello|hi)\b/.test(q)||q===name.toLowerCase()||(/^who (?:is|are) /.test(q)&&q.includes(name.toLowerCase().split(' ')[0])))return reply([profile.intro,profile.current].filter(Boolean).join(' ')||'Profile details are being added.',[{label:'Read experience',href:'/experience/'},{label:'Explore projects',href:'/projects/'}]);
+--- before/src/client.mjs
++++ after/src/client.mjs
+@@ -46,14 +46,6 @@
+ const navigationDialog=document.getElementById('mobile-navigation');
+ matchMedia('(min-width:1025px)').addEventListener('change',event=>{if(event.matches&&navigationDialog?.open)navigationDialog.close();});
+ 
+-const viewer=document.getElementById('gallery-viewer');
+-if(viewer)for(const button of document.querySelectorAll('[data-gallery-open]'))button.addEventListener('click',()=>{
+-  viewer.querySelector('img').src=button.dataset.galleryOpen;
+-  viewer.querySelector('img').alt=button.querySelector('img').alt;
+-  document.getElementById('gallery-caption').textContent=button.dataset.galleryCaption;
+-  openDialog(viewer,button);
+-});
+-
+ const chat=document.getElementById('portfolio-chat');
+ if(chat){
+   const content=JSON.parse(document.getElementById('assistant-data').textContent),input=chat.querySelector('input'),form=chat.querySelector('form'),send=chat.querySelector('[type=submit]'),messages=chat.querySelector('.chat-messages');
+--- before/src/content.mjs
++++ after/src/content.mjs
+@@ -102,6 +102,7 @@
+ ];
+ 
+ // Project connections above include only owner-confirmed experience associations.
++// Legacy Gallery records remain editable in admin; no public Gallery is generated.
+ export const gallery = [
+   {id:'community',title:'Community moments',caption:'Photo to be added',image:null},
+   {id:'hackathons',title:'Hackathons',caption:'Photo to be added',image:null},
+@@ -115,5 +116,4 @@
+   {path:'/experience/',title:'Experience — Miggy Rivera',description:'Internships, independent work, and student leadership.'},
+   {path:'/credentials/',title:'Credentials — Miggy Rivera',description:'Certifications, speaking, hackathons, and other recognition.'},
+   ...communityPages.map(page=>({path:page.path,title:page.title+' — Miggy Rivera',description:page.intro})),
+-  {path:'/gallery/',title:'Gallery — Miggy Rivera',description:'Moments from speaking, community, and building.'},
+ ];
+--- before/src/model.mjs
++++ after/src/model.mjs
+@@ -52,18 +52,18 @@
+   const parsedActivity=activitySchema.safeParse(draft.githubActivity);
+   const githubActivity=parsedActivity.success&&parsedActivity.data.username.toLowerCase()===githubUsername(profile.github)?.toLowerCase()?parsedActivity.data:null;
+   const projects=select('projects'),experiences=select('experiences');
+-  const credentials=select('credentials'),gallery=select('gallery'),community=select('community');
++  const credentials=select('credentials'),community=select('community');
+   const communityPages=categories.map(([id,title,intro])=>{const items=community.filter(e=>e.category===id).map(({id:entryId,...e})=>({...e,entryId}));return {id,path:'/'+id+'/',title,intro,entries:items,summary:items.map(e=>e.role).join(' · ')||'Details will be added here.',sampleNote:items.some(e=>e.sample)?'Sample entry. Event details will be added here.':null};});
+-  const content={profile,projects,githubActivity,deployed:projects,featured:projects.filter(p=>p.featured).sort((a,b)=>a.featureOrder-b.featureOrder).map(p=>({...p,summary:p.role||p.purpose||'',tools:p.tools.join(' · ')})),experiences,credentials,communityPages,gallery,basePath:'/'};
+-  content.counts=Object.fromEntries(COLLECTIONS.map(c=>[c,select(c).length]));
++  const content={profile,projects,githubActivity,deployed:projects,featured:projects.filter(p=>p.featured).sort((a,b)=>a.featureOrder-b.featureOrder).map(p=>({...p,summary:p.role||p.purpose||'',tools:p.tools.join(' · ')})),experiences,credentials,communityPages,basePath:'/'};
++  content.counts=Object.fromEntries(COLLECTIONS.filter(c=>c!=='gallery').map(c=>[c,select(c).length]));
+   content.routes=getRoutes(content);
+-  content.assistantContent={profile,projects,experiences,credentials,communityPages,gallery,basePath:content.basePath};
++  content.assistantContent={profile,projects,experiences,credentials,communityPages,basePath:content.basePath};
+   return content;
+ }
+ export function getRoutes(content){
+   const name=content.profile?.name||'Portfolio';
+   return [{path:'/',title:name+' — '+(content.profile?.role||'Portfolio'),description:content.profile?.intro||'Selected work and experience.'},...[
+     ['/projects/','Projects','Live projects and code.'],['/experience/','Experience','Internships, independent work, and student leadership.'],['/credentials/','Credentials','Certifications, speaking, hackathons, and other recognition.'],
+-    ...(content.communityPages||[]).map(p=>[p.path,p.title,p.intro]),['/gallery/','Gallery','Moments from speaking, community, and building.'],
++    ...(content.communityPages||[]).map(p=>[p.path,p.title,p.intro]),
+   ].map(([path,title,description])=>({path,title:title+' — '+name,description}))];
+ }
+--- before/src/render.mjs
++++ after/src/render.mjs
+@@ -13,12 +13,12 @@
+ const logo=(src,alt)=>src?`<img class="organization-logo" src="${e(src)}" alt="${e(alt)}" width="44" height="44" loading="lazy">`:'<span class="logo-placeholder" aria-label="Organization logo placeholder">LOGO</span>';
+ 
+ export function renderPage(path,content=baselineContent){
+-  const {profile,deployed=[],featured=[],experiences=[],credentials=[],communityPages=[],gallery=[]}=content;
++  const {profile,deployed=[],featured=[],experiences=[],credentials=[],communityPages=[]}=content;
+   const routes=getRoutes(content),basePath=content.basePath||'/';
+   if(!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(basePath))throw new Error('Invalid basePath');
+-  const assistantContent={profile,projects:deployed,experiences,credentials,communityPages,gallery,basePath};
++  const assistantContent={profile,projects:deployed,experiences,credentials,communityPages,basePath};
+ function navigation(path){
+-  const entries=[['/','Home'],['/projects/','Projects'],['/experience/','Experience'],['/credentials/','Credentials'],['/gallery/','Gallery']];
++  const entries=[['/','Home'],['/projects/','Projects'],['/experience/','Experience'],['/credentials/','Credentials']];
+   const navLinks=(items)=>items.map(([href,label])=>`<a href="${href}"${path===href||(href==='/experience/'&&path.startsWith(href))?' aria-current="page"':''}>${label}</a>`).join('');
+   const links=`<div class="sidebar-links">${navLinks(entries)}</div><div class="sidebar-community"><p class="nav-label">Practice &amp; community</p>${navLinks(communityPages.map(p=>[p.path,p.title]))}</div>`;
+   const ask=`<button class="text-link ask-guide" type="button" data-chat-open aria-controls="portfolio-chat">Ask about my work${icon()}</button>`;
+@@ -62,9 +62,8 @@
+ function credentialPage(){return `<header class="page-intro"><h1>Credentials.</h1><p>Certifications, speaking, hackathons, and other recognition.</p></header>${credentials.some(item=>item.sample)?'<p class="sample-note">Sample entries. Certificate details will be added here.</p>':''}<ul class="plain-list full-credentials">${credentials.map(item=>credentialRow(item,'h2')).join('')}</ul>`;}
+ 
+ 
+-function galleryPage(){const first=gallery.find(item=>item.image);return `<header class="page-intro"><h1>Gallery.</h1><p>Moments from speaking, community, and building.</p></header><div class="gallery-grid">${gallery.map(item=>`<figure class="gallery-item">${item.image?`<button class="gallery-photo" type="button" data-gallery-open="${e(item.image)}" aria-label="Enlarge ${e(item.title)}" data-gallery-caption="${e(item.caption)}"><img src="${e(item.image)}" alt="${e(item.alt)}" width="1033" height="672" loading="lazy"><span class="gallery-enlarge" aria-hidden="true">View photo${icon('arrow-external',14)}</span></button>`:'<div class="gallery-empty"><span>Photo to be added</span></div>'}<figcaption><p class="row-name">${e(item.title)}</p><p class="row-provider">${e(item.caption)}</p></figcaption></figure>`).join('')}</div>${first?`<dialog id="gallery-viewer" class="gallery-dialog" aria-labelledby="gallery-caption"><div class="dialog-heading"><p id="gallery-caption">${e(first.caption)}</p><button class="text-link" type="button" data-dialog-close>Close</button></div><img class="gallery-full" src="${e(first.image)}" alt="${e(first.alt)}" width="1033" height="672"></dialog>`:''}`;}
+ function chatDialog(){return `<button class="chat-launcher" type="button" data-chat-open aria-controls="portfolio-chat" aria-haspopup="dialog">Ask about my work${icon()}</button><dialog id="portfolio-chat" class="chat-dialog" aria-labelledby="chat-title" aria-describedby="chat-description"><div class="dialog-heading"><div><p id="chat-title" class="chat-title">Portfolio guide</p><p id="chat-description" class="row-provider">Answers from this portfolio.</p></div><button class="text-link" type="button" data-dialog-close>Close</button></div><div class="chat-messages" role="log" aria-live="polite" aria-relevant="additions" tabindex="0" aria-label="Conversation"><div class="chat-message guide-message"><p class="message-author">Portfolio guide</p><p>What would you like to know about ${e(profile.name)}’s work?</p></div></div><div class="chat-suggestions" aria-label="Suggested questions">${['Show projects','Tell me about experience','How can I get in touch?'].map(label=>`<button type="button" data-chat-question="${e(label)}">${e(label)}${icon()}</button>`).join('')}</div><form class="chat-form"><label for="chat-question">Ask about the portfolio</label><div class="chat-compose"><input id="chat-question" name="question" maxlength="500" autocomplete="off" placeholder="Try a project name…" required><button type="submit" class="chat-send" aria-label="Send question" disabled>${icon()}</button></div><p class="chat-note">Messages stay in this tab.</p></form></dialog><script id="assistant-data" type="application/json">${safeJson(assistantContent)}</script>`;}
+ 
+-const route=routes.find(r=>r.path===path);if(!route)throw new Error(`Unknown route: ${path}`);const community=communityPages.find(page=>page.path===path),isHome=path==='/',body=path==='/gallery/'?galleryPage():path==='/projects/'?projects():path==='/experience/'?experience():path==='/credentials/'?credentialPage():community?communityPage(community):home();const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0a0a0a"><title>${e(route.title)}</title><meta name="description" content="${e(route.description)}"><meta property="og:title" content="${e(route.title)}"><meta property="og:description" content="${e(route.description)}"><meta property="og:type" content="website"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/libre-caslon-display-regular.ttf" as="font" type="font/ttf" crossorigin><link rel="preload" href="/assets/manrope-regular.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="/styles.css"><script src="/client.mjs" type="module"></script></head><body class="${isHome?'home-page':path.slice(1,-1).replaceAll('/','-')+'-page'}"><a class="skip-link" href="#main">Skip to content</a>${navigation(path)}<div class="content-area"><div class="page-shell"><main id="main">${body}</main>${isHome?'':footer()}</div></div>${chatDialog()}</body></html>`;
+-return html.replace(/((?:href|src|data-gallery-open)=")\/(?!\/)([^"\s]*)"/g,(_,start,destination)=>start+e(basePath)+destination+'"');
++const route=routes.find(r=>r.path===path);if(!route)throw new Error(`Unknown route: ${path}`);const community=communityPages.find(page=>page.path===path),isHome=path==='/',body=path==='/projects/'?projects():path==='/experience/'?experience():path==='/credentials/'?credentialPage():community?communityPage(community):home();const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0a0a0a"><title>${e(route.title)}</title><meta name="description" content="${e(route.description)}"><meta property="og:title" content="${e(route.title)}"><meta property="og:description" content="${e(route.description)}"><meta property="og:type" content="website"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/libre-caslon-display-regular.ttf" as="font" type="font/ttf" crossorigin><link rel="preload" href="/assets/manrope-regular.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="/styles.css"><script src="/client.mjs" type="module"></script></head><body class="${isHome?'home-page':path.slice(1,-1).replaceAll('/','-')+'-page'}"><a class="skip-link" href="#main">Skip to content</a>${navigation(path)}<div class="content-area"><div class="page-shell"><main id="main">${body}</main>${isHome?'':footer()}</div></div>${chatDialog()}</body></html>`;
++return html.replace(/((?:href|src)=")\/(?!\/)([^"\s]*)"/g,(_,start,destination)=>start+e(basePath)+destination+'"');
+ }
+--- before/src/styles.css
++++ after/src/styles.css
+@@ -195,14 +195,6 @@
+ .folio-sheets::before,.folio-sheets::after{content:none}
+ .folio-sheet{position:relative;display:flex;flex-direction:column;gap:16px;min-height:0;padding:0 24px 24px;background:var(--sheet);border:1px solid var(--rule);border-top:0}
+ 
+-.gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px}
+-.gallery-item{min-width:0}
+-.gallery-photo{position:relative;display:block;width:100%;padding:0;border:0;background:var(--diagram);overflow:hidden;text-align:left}
+-.gallery-photo>img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;filter:grayscale(1)}
+-.gallery-enlarge{display:inline-flex;align-items:center;gap:6px;position:absolute;bottom:12px;right:12px;padding:4px 8px;background:var(--background);color:var(--white);font-size:11px;line-height:20px}
+-.gallery-photo:hover .gallery-enlarge{text-decoration:underline}
+-.gallery-empty{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;border:1px solid var(--rule);color:var(--muted);font-size:12px}
+-.gallery-item figcaption{margin-top:12px}
+ 
+ dialog{color:var(--white);background:var(--background);border:1px solid var(--rule);padding:24px;max-height:calc(100dvh - 40px)}
+ dialog::backdrop{background:var(--background);opacity:.8}
+@@ -211,8 +203,6 @@
+ .navigation-dialog{width:min(380px,calc(100% - 32px));margin:16px auto 16px 16px}
+ .navigation-dialog .sidebar-links{margin-top:20px}
+ .navigation-dialog .ask-guide{margin-top:24px}
+-.gallery-dialog{width:min(1081px,calc(100% - 40px));margin:auto}
+-.gallery-full{display:block;margin-top:20px;width:100%;height:auto;max-height:calc(100dvh - 170px);object-fit:contain;filter:grayscale(1)}
+ .chat-launcher{position:fixed;right:24px;bottom:24px;z-index:6;display:inline-flex;align-items:center;gap:16px;min-height:44px;padding:12px 16px;border:1px solid var(--rule);background:var(--background);font:500 12px/20px var(--body)}
+ .chat-launcher:hover{text-decoration:underline;text-underline-offset:5px}
+ .chat-dialog{inset:auto 24px 24px auto;margin:0;width:420px;padding:24px}
+@@ -249,7 +239,6 @@
+   .chat-launcher{right:16px;bottom:16px}
+ }
+ @media(max-width:600px){
+-  .gallery-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+   .folio-tabs button:nth-child(n){padding:14px 16px;font-size:24px;line-height:34px}
+   .folio-tabs button[data-sheet-order="0"]{left:24px;width:calc(100% - 24px)}
+   .folio-tabs button[data-sheet-order="1"]{left:12px;width:calc(100% - 12px)}
+@@ -264,7 +253,6 @@
+   .chat-suggestions{padding-top:8px}
+   .chat-form{margin-top:12px}
+   .chat-messages{padding-top:16px}
+-  .gallery-dialog{width:calc(100% - 24px);padding:16px}
+ }
+ @media(max-width:360px){
+   .folio-tabs button:nth-child(n){font-size:24px}
+--- before/tests/annotations.test.mjs
++++ after/tests/annotations.test.mjs
+@@ -7,7 +7,7 @@
+   for(const route of routes){
+     const html=renderPage(route.path);
+     assert.match(html,/class="site-sidebar"/);
+-    assert.match(html,/href="\/gallery\/"/);
++    assert.doesNotMatch(html,/gallery/i);
+     assert.match(html,/<dialog[^>]*id="mobile-navigation"/);
+     assert.match(html,/aria-controls="mobile-navigation"/);
+     assert.match(html,/aria-controls="portfolio-chat"/);
+@@ -25,14 +25,9 @@
+   }
+ });
+ 
+-test('gallery is a navigation destination without a Home content section',()=>{
+-  const html=renderPage('/gallery/');
+-  assert.match(html,/class="gallery-grid"/);
+-  assert.match(html,/data-gallery-open/);
+-  assert.match(html,/<dialog[^>]*id="gallery-viewer"/);
+-  assert.equal((html.match(/class="gallery-item"/g)||[]).length,4);
+-  assert.match(html,/Photo to be added/);
+-  assert.doesNotMatch(renderPage('/'),/class="gallery-grid"/);
++test('Gallery has no public route or replacement photo section',()=>{
++  assert.throws(()=>renderPage('/gallery/'),/Unknown route/);
++  for(const route of routes)assert.doesNotMatch(renderPage(route.path),/gallery-grid|data-gallery-open|gallery-viewer|Photo to be added/);
+ });
+ 
+ test('project layers expose three real title tabs with no decorative fake sheets',()=>{
+@@ -48,7 +43,7 @@
+ test('portfolio guide returns sourced routes and a truthful fallback',async()=>{
+   const {answerQuestion}=await import('../src/assistant.mjs');
+   const {assistantContent}=await import('../src/content.mjs');
+-  for(const [question,path] of [['show projects','/projects/'],['where is Miggy working?','/experience/'],['AWS Website','/projects/#aws-website'],['certifications','/credentials/'],['photos','/gallery/'],['hackathons','/hackathons/']]){
++  for(const [question,path] of [['show projects','/projects/'],['where is Miggy working?','/experience/'],['AWS Website','/projects/#aws-website'],['certifications','/credentials/'],['hackathons','/hackathons/']]){
+     const answer=answerQuestion(question,assistantContent);
+     assert.ok(answer.text.length>10);
+     assert.ok(answer.links.some(l=>l.href===path),question);
+--- before/tests/backend/core.test.mjs
++++ after/tests/backend/core.test.mjs
+@@ -39,8 +39,8 @@
+ 
+ test('private referenced uploads block publication but are allowed in owner previews',async()=>{
+   const {resolveAssets}=await import('../../server/publisher.mjs');
+-  const id=crypto.randomUUID(),draft={entries:[{collection:'gallery',id:'photo',data:{image:'asset:'+id}}],relationships:[],assets:[{id,storage_path:'x',mime_type:'image/png',size:5,visibility:'private',archived:false}]};
++  const id=crypto.randomUUID(),draft={entries:[{collection:'credentials',id:'certificate',data:{logo:'asset:'+id}}],relationships:[],assets:[{id,storage_path:'x',mime_type:'image/png',size:5,visibility:'private',archived:false}]};
+   const repo={downloadAsset:async()=>Buffer.from('image')};
+   await assert.rejects(()=>resolveAssets(draft,repo,false),/public/);
+-  const resolved=await resolveAssets(draft,repo,true);assert.match(resolved.draft.entries[0].data.image,/^\/assets\/uploads\//);assert.equal(resolved.assetFiles.length,1);assert.match(draft.entries[0].data.image,/^asset:/);
++  const resolved=await resolveAssets(draft,repo,true);assert.match(resolved.draft.entries[0].data.logo,/^\/assets\/uploads\//);assert.equal(resolved.assetFiles.length,1);assert.match(draft.entries[0].data.logo,/^asset:/);
+ });
+--- before/tests/backend/integration.test.mjs
++++ after/tests/backend/integration.test.mjs
+@@ -52,9 +52,12 @@
+     assert.equal(asset.visibility,'private');assert.equal((await app.inject('/api/admin/assets/'+asset.id+'/file')).statusCode,401);
+     assert.equal((await app.inject('/.local/originals/'+asset.storage_path)).statusCode,404);
+     assert.equal((await request('PUT','/api/admin/content/gallery/integration-gallery',{collection:'gallery',id:'integration-gallery',data:{title:'Private photo',image:'asset:'+asset.id}})).statusCode,200);
++    assert.equal((await request('PUT','/api/admin/content/credentials/integration-credential',{collection:'credentials',id:'integration-credential',data:{name:'Test certificate',provider:'Test issuer',logo:'asset:'+asset.id}})).statusCode,200);
+     const preview=await request('POST','/api/admin/preview');assert.equal(preview.statusCode,200,preview.body);const previewUrl=preview.json().url;
+     assert.equal((await app.inject(previewUrl)).statusCode,401);const previewPage=await request('GET',previewUrl);assert.ok(previewPage.body.includes(draftName));assert.equal(previewPage.headers['cache-control'],'no-store');
+     assert.deepEqual((await request('GET',previewUrl+`assets/uploads/${asset.id}.png`)).rawPayload,png);
++    assert.equal((await request('GET',previewUrl+'gallery/')).statusCode,404);
++    assert.ok((await repo.getDraft()).entries.some(e=>e.collection==='gallery'&&e.id==='integration-gallery'));
+     const publish=async()=>{const result=await request('POST','/api/admin/publish');assert.equal(result.statusCode,202,result.body);await publisher.waitForIdle();return repo.getRelease(result.json().release.id);};
+     const failed=await publish();assert.equal(failed.state,'failed');assert.equal(publisher.activeId(),null);
+     assert.equal((await request('PATCH','/api/admin/assets/'+asset.id,{visibility:'public'})).statusCode,200);
+--- before/tests/portfolio.test.mjs
++++ after/tests/portfolio.test.mjs
+@@ -19,8 +19,8 @@
+ test('video demo helpers no longer exist',()=>{
+   assert.deepEqual(Object.keys(media),['safeExternalUrl']);
+ });
+-test('all eight routes have one h1, real navigation, correct current state, and no unfinished page',()=>{
+-  assert.deepEqual(routes.map(r=>r.path),['/','/projects/','/experience/','/credentials/','/hackathons/','/leadership/','/organizations/','/gallery/']);
++test('all seven routes have one h1, real navigation, correct current state, and no unfinished page',()=>{
++  assert.deepEqual(routes.map(r=>r.path),['/','/projects/','/experience/','/credentials/','/hackathons/','/leadership/','/organizations/']);
+   for(const route of routes){const html=renderPage(route.path);assert.equal((html.match(/<h1[\s>]/g)||[]).length,1);assert.match(html,/<html lang="en"/);assert.match(html,/href="\/projects\/"/);assert.match(html,/href="\/experience\/"/);assert.match(html,/href="\/credentials\/"/);assert.doesNotMatch(html,/href="#"|javascript:|href="\/practice\//);if(['/projects/','/experience/','/credentials/'].includes(route.path))assert.match(html,new RegExp('href="'+route.path+'"[^>]*aria-current="page"'));}
+ });
+ test('projects render every live project and no demo player',()=>{
+--- before/tests/tech-experience.test.mjs
++++ after/tests/tech-experience.test.mjs
+@@ -33,7 +33,7 @@
+ 
+ test('Experience is readable, keeps its facts and MR logo, and exposes no detail destinations or associations',()=>{
+   const draft=createSeedDraft(),before=structuredClone(draft),content=toContent(draft);
+-  assert.equal(getRoutes(content).length,8);
++  assert.equal(getRoutes(content).length,7);
+   assert.deepEqual(draft,before);assert.equal(draft.relationships.length,2);
+   assert.equal(content.experiences.find(item=>item.id==='freelance').logo,'/assets/favicon.svg');
+   for(const route of ['/','/experience/']){

@@ -41,7 +41,7 @@ export async function createApp({config=loadConfig(),database,auth,publisher=new
     if(config.secure)reply.header('Strict-Transport-Security','max-age=31536000');
     if(pathname.startsWith('/admin')||pathname.startsWith('/api/admin')){
       reply.header('Cache-Control','no-store').header('X-Robots-Tag','noindex, nofollow');
-      reply.header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; media-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'");
+      reply.header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'");
     }
     const api=pathname.startsWith('/api/admin/'),preview=pathname.startsWith('/admin/preview/');
     if(api&&!['GET','HEAD'].includes(request.method)&&request.headers.origin!==config.origin)throw new AppError(403,'This action must come from the portfolio admin.');
@@ -106,10 +106,11 @@ export async function createApp({config=loadConfig(),database,auth,publisher=new
     if(decoded.includes('\0')||decoded.includes('\\'))throw new AppError(400,'Invalid path.');
     const folder=path.resolve(root),file=path.resolve(folder,'.'+decoded);
     if(file!==folder&&!file.startsWith(folder+path.sep))throw new AppError(403,'Invalid path.');
-    const retiredExperience=/^\/experience\/(?!index\.html$).+/i.test(path.posix.normalize(decoded));
-    let target=file,info;if(!retiredExperience)try{info=await stat(target);}catch{}
+    const normalizedPath=path.posix.normalize(decoded);
+    const retiredPage=/^\/experience\/(?!index\.html$).+/i.test(normalizedPath)||/^\/gallery(?:\/|$)/i.test(normalizedPath);
+    let target=file,info;if(!retiredPage)try{info=await stat(target);}catch{}
     if(info?.isDirectory()){if(!decoded.endsWith('/'))return reply.redirect(request.url.split('?')[0]+'/');target=path.join(target,'index.html');}
-    try{if(retiredExperience)throw new AppError(404,'Page not found.');const data=await readFile(target);reply.type(fileTypes[path.extname(target)]||'application/octet-stream');if(!request.url.startsWith('/admin'))reply.header('Cache-Control','no-cache');return reply.send(data);}catch{
+    try{if(retiredPage)throw new AppError(404,'Page not found.');const data=await readFile(target);reply.type(fileTypes[path.extname(target)]||'application/octet-stream');if(!request.url.startsWith('/admin'))reply.header('Cache-Control','no-cache');return reply.send(data);}catch{
       reply.code(404);try{return reply.type('text/html').send(await readFile(path.join(folder,'404.html')));}catch{return reply.send({error:{message:'Page not found.'}});}
     }
   }

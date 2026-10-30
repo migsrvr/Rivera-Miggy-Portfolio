@@ -3,14 +3,19 @@ import assert from 'node:assert/strict';
 import {experiences, routes} from '../src/content.mjs';
 import {renderPage} from '../src/render.mjs';
 
-test('every page offers the complete sidebar and an accessible mobile menu',()=>{
+test('every page offers the four primary navigation links without the community sidebar group',()=>{
   for(const route of routes){
     const html=renderPage(route.path);
     assert.match(html,/class="site-sidebar"/);
-    assert.match(html,/href="\/gallery\/"/);
+    assert.doesNotMatch(html,/gallery/i);
     assert.match(html,/<dialog[^>]*id="mobile-navigation"/);
     assert.match(html,/aria-controls="mobile-navigation"/);
     assert.match(html,/aria-controls="portfolio-chat"/);
+    const menus=[html.match(/<nav aria-label="Main navigation">([\s\S]*?)<\/nav>/)[1],html.match(/<nav aria-label="Mobile navigation">([\s\S]*?)<\/nav>/)[1]];
+    for(const menu of menus){
+      for(const path of ['/','/projects/','/experience/','/credentials/'])assert.ok(menu.includes(`href="${path}"`));
+      assert.doesNotMatch(menu,/sidebar-community|Practice &amp; community|\/hackathons\/|\/leadership\/|\/organizations\//);
+    }
   }
 });
 
@@ -25,14 +30,9 @@ test('experience rows retain supplied facts without opening individual pages',()
   }
 });
 
-test('gallery is a navigation destination without a Home content section',()=>{
-  const html=renderPage('/gallery/');
-  assert.match(html,/class="gallery-grid"/);
-  assert.match(html,/data-gallery-open/);
-  assert.match(html,/<dialog[^>]*id="gallery-viewer"/);
-  assert.equal((html.match(/class="gallery-item"/g)||[]).length,4);
-  assert.match(html,/Photo to be added/);
-  assert.doesNotMatch(renderPage('/'),/class="gallery-grid"/);
+test('Gallery has no public route or replacement photo section',()=>{
+  assert.throws(()=>renderPage('/gallery/'),/Unknown route/);
+  for(const route of routes)assert.doesNotMatch(renderPage(route.path),/gallery-grid|data-gallery-open|gallery-viewer|Photo to be added/);
 });
 
 test('project layers expose three real title tabs with no decorative fake sheets',()=>{
@@ -48,7 +48,7 @@ test('project layers expose three real title tabs with no decorative fake sheets
 test('portfolio guide returns sourced routes and a truthful fallback',async()=>{
   const {answerQuestion}=await import('../src/assistant.mjs');
   const {assistantContent}=await import('../src/content.mjs');
-  for(const [question,path] of [['show projects','/projects/'],['where is Miggy working?','/experience/'],['AWS Website','/projects/#aws-website'],['certifications','/credentials/'],['photos','/gallery/'],['hackathons','/hackathons/']]){
+  for(const [question,path] of [['show projects','/projects/'],['where is Miggy working?','/experience/'],['AWS Website','/projects/#aws-website'],['certifications','/credentials/'],['hackathons','/hackathons/']]){
     const answer=answerQuestion(question,assistantContent);
     assert.ok(answer.text.length>10);
     assert.ok(answer.links.some(l=>l.href===path),question);

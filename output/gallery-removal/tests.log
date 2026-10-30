@@ -1,0 +1,24 @@
+
+> rivera-2026-portfolio@1.0.0 test
+> node --test tests/*.test.mjs tests/backend/core.test.mjs tests/backend/http.test.mjs
+
+✔ tests/annotations.test.mjs (1346.982166ms)
+✔ tests/backend/core.test.mjs (3045.586637ms)
+✔ tests/backend/http.test.mjs (7119.77061ms)
+✔ tests/content.test.mjs (1811.652635ms)
+✔ tests/experience.test.mjs (1433.981187ms)
+✔ tests/gallery-removal.test.mjs (2066.602747ms)
+✔ tests/github-activity.test.mjs (176.592693ms)
+✔ tests/home-activity.test.mjs (1633.757498ms)
+✔ tests/neon-auth.test.mjs (1860.34246ms)
+✔ tests/portfolio.test.mjs (1580.747274ms)
+✔ tests/project-revision.test.mjs (1372.825176ms)
+✔ tests/tech-experience.test.mjs (2053.485534ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7151.32733

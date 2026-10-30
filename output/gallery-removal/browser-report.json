@@ -1,0 +1,43 @@
+{
+  "source": "rebuilt dist, served from disk through Playwright routes",
+  "widths": [
+    {
+      "width": 1440,
+      "navigation": true,
+      "keyboardCommunityLink": true,
+      "guideFallback": true,
+      "noOverflow": true
+    },
+    {
+      "width": 1024,
+      "navigation": true,
+      "keyboardCommunityLink": true,
+      "guideFallback": true,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "navigation": true,
+      "keyboardCommunityLink": true,
+      "guideFallback": true,
+      "noOverflow": true
+    },
+    {
+      "width": 320,
+      "navigation": true,
+      "keyboardCommunityLink": true,
+      "guideFallback": true,
+      "noOverflow": true
+    }
+  ],
+  "checks": [
+    "seven navigation destinations",
+    "no Gallery links or lightbox",
+    "native mobile menu Escape and focus return",
+    "community keyboard navigation and current state",
+    "retained Leadership content",
+    "photo question fallback",
+    "no horizontal overflow",
+    "no browser errors"
+  ]
+}

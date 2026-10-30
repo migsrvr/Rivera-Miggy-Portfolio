@@ -5,7 +5,8 @@ import {build as buildSite} from '../scripts/build.mjs';
 import {toContent,validateDraft} from '../src/model.mjs';
 import {AppError} from './errors.mjs';
 import {withGithubActivity} from './github.mjs';
-const fields={profile:['photo','resume'],projects:['poster'],experiences:['logo'],credentials:['logo','url'],community:['logo'],gallery:['image']};
+// Gallery records are retained for admin compatibility and do not contribute public assets.
+const fields={profile:['photo','resume'],experiences:['logo'],credentials:['logo','url'],community:['logo']};
 const extensions={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'};
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export async function resolveAssets(source,repo,allowPrivate=false){

@@ -52,9 +52,12 @@ test('real PostgreSQL owner API protects sessions, drafts, originals, preview an
     assert.equal(asset.visibility,'private');assert.equal((await app.inject('/api/admin/assets/'+asset.id+'/file')).statusCode,401);
     assert.equal((await app.inject('/.local/originals/'+asset.storage_path)).statusCode,404);
     assert.equal((await request('PUT','/api/admin/content/gallery/integration-gallery',{collection:'gallery',id:'integration-gallery',data:{title:'Private photo',image:'asset:'+asset.id}})).statusCode,200);
+    assert.equal((await request('PUT','/api/admin/content/credentials/integration-credential',{collection:'credentials',id:'integration-credential',data:{name:'Test certificate',provider:'Test issuer',logo:'asset:'+asset.id}})).statusCode,200);
     const preview=await request('POST','/api/admin/preview');assert.equal(preview.statusCode,200,preview.body);const previewUrl=preview.json().url;
     assert.equal((await app.inject(previewUrl)).statusCode,401);const previewPage=await request('GET',previewUrl);assert.ok(previewPage.body.includes(draftName));assert.equal(previewPage.headers['cache-control'],'no-store');
     assert.deepEqual((await request('GET',previewUrl+`assets/uploads/${asset.id}.png`)).rawPayload,png);
+    assert.equal((await request('GET',previewUrl+'gallery/')).statusCode,404);
+    assert.ok((await repo.getDraft()).entries.some(e=>e.collection==='gallery'&&e.id==='integration-gallery'));
     const publish=async()=>{const result=await request('POST','/api/admin/publish');assert.equal(result.statusCode,202,result.body);await publisher.waitForIdle();return repo.getRelease(result.json().release.id);};
     const failed=await publish();assert.equal(failed.state,'failed');assert.equal(publisher.activeId(),null);
     assert.equal((await request('PATCH','/api/admin/assets/'+asset.id,{visibility:'public'})).statusCode,200);

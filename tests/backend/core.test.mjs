@@ -39,8 +39,8 @@ test('publishing freezes snapshots, preserves the last good release, and restore
 
 test('private referenced uploads block publication but are allowed in owner previews',async()=>{
   const {resolveAssets}=await import('../../server/publisher.mjs');
-  const id=crypto.randomUUID(),draft={entries:[{collection:'gallery',id:'photo',data:{image:'asset:'+id}}],relationships:[],assets:[{id,storage_path:'x',mime_type:'image/png',size:5,visibility:'private',archived:false}]};
+  const id=crypto.randomUUID(),draft={entries:[{collection:'credentials',id:'certificate',data:{logo:'asset:'+id}}],relationships:[],assets:[{id,storage_path:'x',mime_type:'image/png',size:5,visibility:'private',archived:false}]};
   const repo={downloadAsset:async()=>Buffer.from('image')};
   await assert.rejects(()=>resolveAssets(draft,repo,false),/public/);
-  const resolved=await resolveAssets(draft,repo,true);assert.match(resolved.draft.entries[0].data.image,/^\/assets\/uploads\//);assert.equal(resolved.assetFiles.length,1);assert.match(draft.entries[0].data.image,/^asset:/);
+  const resolved=await resolveAssets(draft,repo,true);assert.match(resolved.draft.entries[0].data.logo,/^\/assets\/uploads\//);assert.equal(resolved.assetFiles.length,1);assert.match(draft.entries[0].data.logo,/^asset:/);
 });
