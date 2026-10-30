@@ -1,7 +1,7 @@
 // Edit this file to add project links, recordings, logos, and real credentials.
 export const profile = {
   name: 'Miggy Rivera', fullName: 'Miggy G. Rivera', role: 'Software developer',
-  intro: 'I’m an Information Technology student at Jose Rizal University. I build web applications, APIs, and tools for complex workflows.',
+  intro: 'I’m an Information Technology student at Jose Rizal University. Building software products, backend systems & AI integrations',
   current: 'Currently interning at Top Realty Corporation and serving as The Vice President External at AWS Student Builder Group - JRU.',
   email: 'rivera.dev.miggy@gmail.com', resume: '/assets/resume.pdf', github: 'https://github.com/migsrvr', linkedin: null,
   photo: '/assets/stage-speaking.png', photoAlt: 'Miggy Rivera speaking into a microphone on stage at a general assembly.',
