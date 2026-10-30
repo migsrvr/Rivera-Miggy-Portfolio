@@ -30,10 +30,6 @@ test('Gallery records remain valid admin data while public content retains the s
     assert.doesNotMatch(html,/gallery|Private gallery title|Private gallery caption/i);
     const guide=JSON.parse(html.match(/<script id="assistant-data"[^>]*>([\s\S]*?)<\/script>/)[1]);
     assert.ok(!('gallery' in guide));
-    for(const community of ['/hackathons/','/leadership/','/organizations/']){
-      assert.ok(html.includes(`href="${community}"`));
-      if(route===community)assert.ok(html.includes(`href="${community}" aria-current="page"`));
-    }
   }
   assert.ok(renderPage('/',content).includes(content.profile.photo));
   assert.throws(()=>renderPage('/gallery/',content),/Unknown route/);
@@ -93,7 +89,7 @@ test('fresh and reused builds omit Gallery and prune old output with preview-pre
     for(const route of publicPaths){
       const html=await readFile(path.join(root,route,'index.html'),'utf8');
       assert.doesNotMatch(html,/gallery|Legacy photo title/i);
-      for(const community of ['hackathons/','leadership/','organizations/'])assert.ok(html.includes(`href="${basePath}${community}"`));
+      for(const destination of ['projects/','experience/','credentials/'])assert.ok(html.includes(`href="${basePath}${destination}"`));
       assert.doesNotMatch(html,/(?:href|src)="\/(?!admin\/preview\/reused\/)/);
     }
   }finally{await rm(root,{recursive:true,force:true});}

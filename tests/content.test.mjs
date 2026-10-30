@@ -133,7 +133,7 @@ test('sample relationships remain editable draft data and stay out of public con
 
 test('individual sample credentials remain distinguishable from verified factual entries',()=>{
   const draft=model.createSeedDraft();
-  const credentials=draft.entries.filter(e=>e.collection==='credentials');credentials[0].sample=false;credentials[0].data.name='Real certificate';credentials[1].data.name='Illustrative certificate';
+  const credentials=draft.entries.filter(e=>e.collection==='credentials');credentials[0].sample=false;credentials[0].data.name='Real certificate';credentials[1].sample=true;credentials[1].data.name='Illustrative certificate';
   const rows=renderPage('/credentials/',model.toContent(draft)).match(/<li class="credential-row">.*?<\/li>/g);
   assert.doesNotMatch(rows[0],/>Sample entry</);assert.match(rows[1],/>Sample entry</);
 });

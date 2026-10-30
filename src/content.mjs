@@ -69,9 +69,16 @@ export const experiences = [
     startDate:null,endDate:null,employmentType:'Freelance',location:null,workMode:null,logo:'/assets/favicon.svg'},
 ];
 
-// Approved mockup entries. Replace with actual certificate names and providers.
-// Use linkLabel: 'View certificate' for document evidence instead of issuer verification.
-export const credentials = ['Professional certification','Speaker certificate','Hackathon recognition','Course completion certificate','Workshop certificate','Participation certificate'].map((name,index)=>({id:`credential-${index+1}`,name,provider:'Provider or organizer',logo:null,url:null,linkLabel:'Verify',sample:true}));
+// Owner-supplied earned badges; use public Credly URLs so visitors can verify without signing in.
+// The two IT Specialist dates are expiry dates, not inferred issue dates.
+export const credentials = [
+  {id:'aws-sbg-core-team-member',name:'AWS SBG Core Team Member Badge',provider:'AWS Community',logo:'/assets/credentials/aws-sbg-core-team-member.png',url:'https://www.credly.com/badges/1a916a6e-5e2c-4e80-94f5-a7ba1e4547d4/public_url',date:'Issued Jul 22, 2026',category:'Community recognition',linkLabel:'Verify',sample:false},
+  {id:'comptia-itf-plus',name:'CompTIA IT Fundamentals+ (ITF+) Certification',provider:'CompTIA',logo:'/assets/credentials/comptia-itf-plus.png',url:'https://www.credly.com/badges/7a72f3e5-3a4d-4bc7-a89b-47f40b23af28/public_url',date:'Issued Nov 27, 2024',category:'Certification',linkLabel:'Verify',sample:false},
+  {id:'it-specialist-databases',name:'IT Specialist - Databases',provider:'Certiport, a Pearson VUE business',logo:'/assets/credentials/it-specialist-databases.png',url:'https://www.credly.com/badges/d88adc6b-2e0e-4d40-b0d2-90e20331f604/public_url',date:'Expires May 6, 2031',category:'Certification',linkLabel:'Verify',sample:false},
+  {id:'it-specialist-java',name:'IT Specialist - Java',provider:'Certiport, a Pearson VUE business',logo:'/assets/credentials/it-specialist-java.png',url:'https://www.credly.com/badges/e000ce45-a027-4b71-8eb7-f92a71f743a3/public_url',date:'Expires Nov 12, 2030',category:'Certification',linkLabel:'Verify',sample:false},
+  {id:'javascript-essentials-1',name:'JavaScript Essentials 1',provider:'Cisco',logo:'/assets/credentials/javascript-essentials-1.png',url:'https://www.credly.com/badges/bc2da1a8-73a2-48ed-93cc-ae7772519251/public_url',date:'Issued Aug 9, 2026',category:'Course completion',linkLabel:'Verify',sample:false},
+  {id:'javascript-essentials-2',name:'JavaScript Essentials 2',provider:'Cisco',logo:'/assets/credentials/javascript-essentials-2.png',url:'https://www.credly.com/badges/cd183c20-9e35-4321-adc3-2cae2ca48e99/public_url',date:'Issued Aug 12, 2026',category:'Course completion',linkLabel:'Verify',sample:false},
+];
 
 export const communityPages = [
   {

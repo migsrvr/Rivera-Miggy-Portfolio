@@ -38,7 +38,7 @@ test('Experience is readable, keeps its facts and MR logo, and exposes no detail
   assert.equal(content.experiences.find(item=>item.id==='freelance').logo,'/assets/favicon.svg');
   for(const route of ['/','/experience/']){
     const html=renderPage(route,content),rows=main(html).match(/<ul class="plain-list (?:compact|full)-experience">([\s\S]*?)<\/ul>/)[1];
-    assert.equal((rows.match(/<li class="experience-row">/g)||[]).length,6);
+    assert.equal((rows.match(/<li class="experience-row">/g)||[]).length,route==='/'?3:6);
     assert.doesNotMatch(rows,/<a\b|<button\b|tabindex|role="link"|class="icon/);
     assert.match(html,/href="\/experience\/"/);
   }
@@ -53,6 +53,23 @@ test('Experience is readable, keeps its facts and MR logo, and exposes no detail
   assert.doesNotMatch(projects,/project-experience|recorded-data|experienceLinks/);
   assert.match(answerQuestion('experience',json(projects,'assistant-data')).text,/Makati|Remote/);
   for(const item of content.experiences)assert.throws(()=>renderPage(`/experience/${item.id}/`,content),/Unknown route/);
+});
+
+test('Home highlights Top Realty, freelance and FlyRank in the requested order without hiding full experience',()=>{
+  const draft=createSeedDraft();
+  draft.entries.filter(entry=>entry.collection==='experiences').forEach((entry,index)=>{entry.position=10-index;});
+  const content=toContent(draft),before=structuredClone(content);
+  const rows=main(renderPage('/',content)).match(/<ul class="plain-list compact-experience">([\s\S]*?)<\/ul>/)[1];
+  const names=[...rows.matchAll(/<h3 class="row-name">(.*?)<\/h3>/g)].map(match=>match[1]);
+  const selected=['top-realty','freelance','flyrank-ai'].map(id=>content.experiences.find(item=>item.id===id));
+  assert.deepEqual(names,selected.map(item=>item.role));
+  const full=main(renderPage('/experience/',content));
+  for(const item of content.experiences)assert.ok(full.includes(item.role));
+  assert.deepEqual(content,before);
+  const hidden=draft.entries.find(entry=>entry.id==='freelance');hidden.visible=false;
+  const reduced=main(renderPage('/',toContent(draft))).match(/<ul class="plain-list compact-experience">([\s\S]*?)<\/ul>/)[1];
+  assert.equal((reduced.match(/class="experience-row"/g)||[]).length,2);
+  assert.doesNotMatch(reduced,/WorkFlow PH|Vice President|Web Developer Lead/);
 });
 
 test('fresh and reused builds omit detail pages and prune obsolete experience folders',async()=>{

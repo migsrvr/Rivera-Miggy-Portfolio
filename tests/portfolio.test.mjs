@@ -32,7 +32,7 @@ test('Home has working overview links, real supplied resume and no missing socia
   assert.equal((html.match(/data-folio-tab=/g)||[]).length,3);
 });
 test('unprovided verification destinations remain unavailable instead of fake links',()=>{
-  const html=renderPage('/credentials/');assert.equal((html.match(/class="credential-row"/g)||[]).length,6);assert.equal((html.match(/aria-disabled="true"/g)||[]).length,6);assert.doesNotMatch(html,/target="_blank"[^>]*href="#"/);
+  const html=renderPage('/credentials/',{...content,credentials:credentials.map(item=>({...item,url:null}))});assert.equal((html.match(/class="credential-row"/g)||[]).length,6);assert.equal((html.match(/aria-disabled="true"/g)||[]).length,6);assert.doesNotMatch(html,/target="_blank"[^>]*href="#"/);
 });
 test('content escaping protects HTML text and embedded JSON script boundaries',()=>{
   assert.equal(escapeHtml('<img x="&">'), '&lt;img x=&quot;&amp;&quot;&gt;');
@@ -44,13 +44,14 @@ test('page heading hierarchy does not skip levels',()=>{
 });
 
 
-test('Home exposes three complete community links to real category pages',()=>{
+test('Home omits the community section while retaining its existing category pages',()=>{
   const html=renderPage('/');
-  assert.match(html,/Practice &amp; community/);
+  assert.doesNotMatch(html,/community-title|community-link|Practice &amp; community/);
+  assert.ok(html.indexOf('id="experience-title"')<html.indexOf('id="credentials-title"'));
   for(const [slug,title] of [['hackathons','Hackathons'],['leadership','Leadership'],['organizations','Organizations']]){
-    assert.match(html,new RegExp('<a class="community-link" href="/'+slug+'/"'));
-    assert.match(html,new RegExp('id="community-'+slug+'-title">'+title+'</h3>'));
+    assert.ok(!html.includes(`href="/${slug}/"`));
     assert.ok(routes.some(r=>r.path==='/'+slug+'/'));
+    assert.ok(renderPage('/'+slug+'/').includes('<h1>'+title+'.</h1>'));
   }
 });
 test('community pages reuse plain reading rows and preserve supplied facts',()=>{
