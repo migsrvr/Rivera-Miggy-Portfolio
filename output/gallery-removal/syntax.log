@@ -1,0 +1,5 @@
+
+> rivera-2026-portfolio@1.0.0 check
+> node scripts/check.mjs
+
+Syntax checked 44 JavaScript modules.

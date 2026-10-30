@@ -1,0 +1,44 @@
+✔ every page offers the complete sidebar and an accessible mobile menu (6.029537ms)
+✔ experience rows retain supplied facts without opening individual pages (10.379183ms)
+✔ Gallery has no public route or replacement photo section (2.23737ms)
+✔ project layers expose three real title tabs with no decorative fake sheets (0.842416ms)
+✔ portfolio guide returns sourced routes and a truthful fallback (3.414235ms)
+✔ encrypted sessions reject tampering and never expose tokens (12.729173ms)
+✔ uploads inspect real file content and enforce type/size rules (568.383177ms)
+✔ publishing freezes snapshots, preserves the last good release, and restores without changing drafts (15.808561ms)
+✔ private referenced uploads block publication but are allowed in owner previews (0.586173ms)
+✔ retired Gallery URLs return 404 in fallback builds, older releases, and authenticated previews (5536.896695ms)
+✔ retired experience URLs return 404 even in older active releases and authenticated previews (25.647111ms)
+✔ JFIF logos are served as JPEG images in public pages and private previews (9.005526ms)
+✔ unconfigured backend serves the portfolio and admin shell but never pretends to authenticate (35.687475ms)
+✔ unarchiving a fourth featured project is rejected before persistence (21.187688ms)
+✔ Gallery records remain valid admin data while public content retains the seven reading pages (7.056613ms)
+✔ photo and Gallery questions use the existing guide fallback even with legacy Gallery data (6.996703ms)
+✔ Gallery-only assets are ignored for publication and preview without mutating stored records (0.767484ms)
+Built 7 pages; verified 38 local asset references.
+Built 7 pages; verified 38 local asset references.
+✔ fresh and reused builds omit Gallery and prune old output with preview-prefixed navigation (405.82929ms)
+✔ inventory preserves the supplied nine live projects and AWS lead (0.190957ms)
+✔ external links accept HTTP(S) only and reject fake or empty targets (0.164059ms)
+✔ video demo helpers no longer exist (0.06666ms)
+✔ all seven routes have one h1, real navigation, correct current state, and no unfinished page (2.461777ms)
+✔ projects render every live project and no demo player (0.600834ms)
+✔ Home has working overview links, real supplied resume and no missing social destinations (0.806122ms)
+✔ unprovided verification destinations remain unavailable instead of fake links (0.504194ms)
+✔ content escaping protects HTML text and embedded JSON script boundaries (0.218145ms)
+✔ page heading hierarchy does not skip levels (2.396447ms)
+✔ Home exposes three complete community links to real category pages (4.454252ms)
+✔ community pages reuse plain reading rows and preserve supplied facts (1.85308ms)
+✔ all twenty-three technologies have marks, with normalized lookup and text for custom tools (2.333718ms)
+✔ Experience is readable, keeps its facts and MR logo, and exposes no detail destinations or associations (4.283771ms)
+Built 7 pages; verified 38 local asset references.
+Built 7 pages; verified 38 local asset references.
+✔ fresh and reused builds omit detail pages and prune obsolete experience folders (428.494522ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8483.534895

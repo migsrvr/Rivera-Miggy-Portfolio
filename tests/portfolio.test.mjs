@@ -1,12 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {deployed, recorded, featured, experiences, credentials, routes} from '../src/content.mjs';
-import {safeExternalUrl, videoSource, selectProject} from '../src/media.mjs';
+import * as content from '../src/content.mjs';
+import {deployed, featured, experiences, credentials, routes} from '../src/content.mjs';
+import {safeExternalUrl} from '../src/media.mjs';
+import * as media from '../src/media.mjs';
 import {renderPage, escapeHtml, safeJson} from '../src/render.mjs';
 
-test('inventory preserves the supplied ten projects and AWS lead',()=>{
-  assert.deepEqual(deployed.map(p=>p.title),['AWS Website','AWS Photobooth','Care Cures','Mediseena','Pax Virentia','Hydra','Rule VII']);
-  assert.deepEqual(recorded.map(p=>p.title),['Hima-Paiflow','Desktop-Widget','SNEA']);
+test('inventory preserves the supplied nine live projects and AWS lead',()=>{
+  assert.deepEqual(deployed.map(p=>p.title),['AWS Website','AWS Photobooth','Care Cures','Mediseena','Pax Virentia','Hydra','Rule VII','Hima-Paiflow','SESSION']);
+  assert.ok(!('recorded' in content));
   assert.equal(featured[0].id,'aws-website');
   assert.equal(experiences.length,6);assert.equal(credentials.length,6);
 });
@@ -14,27 +16,16 @@ test('external links accept HTTP(S) only and reject fake or empty targets',()=>{
   for(const url of [null,'','#','javascript:alert(1)','data:text/html,a','file:///C:/x','//example.com','https://user:password@example.com'])assert.equal(safeExternalUrl(url),null);
   assert.equal(safeExternalUrl('https://example.com/work'),'https://example.com/work');
 });
-test('video URLs support known YouTube forms and local direct recordings safely',()=>{
-  for(const url of ['https://youtu.be/abcDEF123_-','https://www.youtube.com/watch?v=abcDEF123_-','https://www.youtube.com/embed/abcDEF123_-']){
-    assert.deepEqual(videoSource(url),{type:'youtube',src:'https://www.youtube-nocookie.com/embed/abcDEF123_-'});
-  }
-  assert.deepEqual(videoSource('/assets/demo.mp4'),{type:'video',src:'/assets/demo.mp4'});
-  assert.deepEqual(videoSource('https://example.com/demo.webm'),{type:'video',src:'https://example.com/demo.webm'});
-  for(const url of [null,'javascript:alert(1)','https://youtube.com.evil.test/watch?v=abcDEF123_-','https://youtu.be/bad','//evil.test/demo.mp4','/../private.mp4'])assert.equal(videoSource(url),null);
+test('video demo helpers no longer exist',()=>{
+  assert.deepEqual(Object.keys(media),['safeExternalUrl']);
 });
-test('selection finds the requested demo and falls back without altering the collection',()=>{
-  const ids=recorded.map(p=>p.id);assert.equal(selectProject(recorded,'snea').title,'SNEA');
-  assert.equal(selectProject(recorded,'missing').id,'hima-paiflow');assert.equal(selectProject([], 'missing'),null);
-  assert.deepEqual(recorded.map(p=>p.id),ids);
-});
-test('all eight routes have one h1, real navigation, correct current state, and no unfinished page',()=>{
-  assert.deepEqual(routes.map(r=>r.path),['/','/projects/','/experience/','/credentials/','/hackathons/','/leadership/','/organizations/','/gallery/']);
+test('all seven routes have one h1, real navigation, correct current state, and no unfinished page',()=>{
+  assert.deepEqual(routes.map(r=>r.path),['/','/projects/','/experience/','/credentials/','/hackathons/','/leadership/','/organizations/']);
   for(const route of routes){const html=renderPage(route.path);assert.equal((html.match(/<h1[\s>]/g)||[]).length,1);assert.match(html,/<html lang="en"/);assert.match(html,/href="\/projects\/"/);assert.match(html,/href="\/experience\/"/);assert.match(html,/href="\/credentials\/"/);assert.doesNotMatch(html,/href="#"|javascript:|href="\/practice\//);if(['/projects/','/experience/','/credentials/'].includes(route.path))assert.match(html,new RegExp('href="'+route.path+'"[^>]*aria-current="page"'));}
 });
-test('projects render all deployed entries and three persistent demo selectors',()=>{
+test('projects render every live project and no demo player',()=>{
   const html=renderPage('/projects/');for(const p of deployed)assert.ok(html.includes(p.title));
-  assert.equal((html.match(/data-demo-tab=/g)||[]).length,3);assert.equal((html.match(/id="demo-player"/g)||[]).length,1);
-  assert.match(html,/Video preview pending/);assert.doesNotMatch(html,/<iframe|<video/);
+  assert.doesNotMatch(html,/Recorded work|demo-|data-play-demo|Video preview|<iframe|<video|youtube/i);
 });
 test('Home has working overview links, real supplied resume and no missing social destinations',()=>{
   const html=renderPage('/');assert.match(html,/href="\/experience\/"[^>]*>\s*View all/);assert.match(html,/href="\/credentials\/"[^>]*>\s*View all/);assert.match(html,/href="\/assets\/resume.pdf"/);assert.doesNotMatch(html,/href="null"/);assert.match(html,/href="https:\/\/github.com\/migsrvr"/);

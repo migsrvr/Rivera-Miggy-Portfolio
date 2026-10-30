@@ -14,6 +14,7 @@ export async function build({content=toContent(createSeedDraft()),outputDir,base
   const snapshot={...content,basePath},routes=getRoutes(snapshot);
   for(const route of routes)if(!/^\/(?:[a-z0-9-]+\/)*$/.test(route.path))throw new Error('Invalid route path');
   await mkdir(dist,{recursive:true});await cp(path.join(root,'public'),dist,{recursive:true});
+  await rm(path.join(dist,'gallery'),{recursive:true,force:true});
   const experienceDir=path.join(dist,'experience');
   await mkdir(experienceDir,{recursive:true});
   for(const entry of await readdir(experienceDir,{withFileTypes:true}))if(entry.isDirectory())await rm(path.join(experienceDir,entry.name),{recursive:true,force:true});

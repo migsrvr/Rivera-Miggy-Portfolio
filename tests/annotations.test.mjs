@@ -7,7 +7,7 @@ test('every page offers the complete sidebar and an accessible mobile menu',()=>
   for(const route of routes){
     const html=renderPage(route.path);
     assert.match(html,/class="site-sidebar"/);
-    assert.match(html,/href="\/gallery\/"/);
+    assert.doesNotMatch(html,/gallery/i);
     assert.match(html,/<dialog[^>]*id="mobile-navigation"/);
     assert.match(html,/aria-controls="mobile-navigation"/);
     assert.match(html,/aria-controls="portfolio-chat"/);
@@ -25,14 +25,9 @@ test('experience rows retain supplied facts without opening individual pages',()
   }
 });
 
-test('gallery is a navigation destination without a Home content section',()=>{
-  const html=renderPage('/gallery/');
-  assert.match(html,/class="gallery-grid"/);
-  assert.match(html,/data-gallery-open/);
-  assert.match(html,/<dialog[^>]*id="gallery-viewer"/);
-  assert.equal((html.match(/class="gallery-item"/g)||[]).length,4);
-  assert.match(html,/Photo to be added/);
-  assert.doesNotMatch(renderPage('/'),/class="gallery-grid"/);
+test('Gallery has no public route or replacement photo section',()=>{
+  assert.throws(()=>renderPage('/gallery/'),/Unknown route/);
+  for(const route of routes)assert.doesNotMatch(renderPage(route.path),/gallery-grid|data-gallery-open|gallery-viewer|Photo to be added/);
 });
 
 test('project layers expose three real title tabs with no decorative fake sheets',()=>{
@@ -48,7 +43,7 @@ test('project layers expose three real title tabs with no decorative fake sheets
 test('portfolio guide returns sourced routes and a truthful fallback',async()=>{
   const {answerQuestion}=await import('../src/assistant.mjs');
   const {assistantContent}=await import('../src/content.mjs');
-  for(const [question,path] of [['show projects','/projects/'],['where is Miggy working?','/experience/'],['AWS Website','/projects/#aws-website'],['certifications','/credentials/'],['photos','/gallery/'],['hackathons','/hackathons/']]){
+  for(const [question,path] of [['show projects','/projects/'],['where is Miggy working?','/experience/'],['AWS Website','/projects/#aws-website'],['certifications','/credentials/'],['hackathons','/hackathons/']]){
     const answer=answerQuestion(question,assistantContent);
     assert.ok(answer.text.length>10);
     assert.ok(answer.links.some(l=>l.href===path),question);

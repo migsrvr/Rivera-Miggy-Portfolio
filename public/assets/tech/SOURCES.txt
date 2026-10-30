@@ -6,3 +6,6 @@ Library license: CC0-1.0. Brand marks remain their respective owners’ trademar
 Added React, Railway, Next.js, TypeScript, and Google Gemini from develop/icons/
 on 2026-10-27: react.svg, railway.svg, nextdotjs.svg, typescript.svg, googlegemini.svg.
 Tesseract.js (OCR), pgvector (PGV), and Groq (GQ) use local text badges.
+Added Expo, Express, Stellar, Vite, Tauri, and Rust from develop/icons/
+on 2026-10-27: expo.svg, express.svg, stellar.svg, vite.svg, tauri.svg, rust.svg.
+React Native reuses react.svg.

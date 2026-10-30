@@ -20,19 +20,14 @@ export const deployed = [
     contribution:'Managed the project and contributed to full stack development.',tools:['React','Supabase','Google Gemini','Tesseract.js','Vercel'],url:'https://mediseena.vercel.app',repositoryUrl:'https://github.com/migsrvr/Mediseena'},
   {id:'pax-virentia',title:'Pax Virentia',role:'Project Manager / Full Stack Developer',purpose:'Economic and environmental simulation for water-treatment operating scenarios.',
     contribution:'Managed the project and contributed to full stack development.',tools:['React','TypeScript','FastAPI','PostgreSQL','Vercel'],url:'https://pax-virentia.vercel.app',repositoryUrl:'https://github.com/migsrvr/Pax-Virentia'},
-  {id:'hydra',title:'Hydra',mark:'HY',role:'AI Engineer / Backend Developer',purpose:'Public infrastructure transparency and risk screening.',
-    contribution:'Built a pipeline to validate, geocode, and analyze public infrastructure records, with a rule-based risk engine. Developed as a hackathon project.',tools:['Python','Flask','SQLite'],url:null,videoUrl:null,repositoryUrl:null,poster:null},
-  {id:'rule-vii',title:'Rule VII',mark:'VII',role:'AI Engineer / Full Stack Developer',purpose:'Architectural regulation retrieval.',
-    contribution:'Built document extraction, hybrid retrieval, and authenticated APIs for searching architectural regulations.',tools:['Next.js','FastAPI','Supabase','pgvector','Groq'],url:'https://rule-vii-frontend.vercel.app',videoUrl:null,repositoryUrl:'https://github.com/migsrvr/Rule-VII---AI-Architect',poster:null},
-];
-
-export const recorded = [
-  {id:'hima-paiflow',title:'Hima-Paiflow',mark:'HP',role:'Full Stack Mobile Developer',
-    purpose:'Project walkthrough to be added.',contribution:'Handled full stack mobile development for a hackathon project.',videoUrl:null,repositoryUrl:null,poster:null},
-  {id:'desktop-widget',title:'Desktop-Widget',mark:'DW',role:'Full Stack Desktop Developer',
-    purpose:'Project walkthrough to be added.',contribution:'Handled full stack desktop development.',videoUrl:null,repositoryUrl:null,poster:null},
-  {id:'snea',title:'SNEA',mark:'SN',role:'Full Stack Mobile Developer',
-    purpose:'Project walkthrough to be added.',contribution:'Handled full stack mobile development for an engineering student as freelance work.',videoUrl:null,repositoryUrl:null,poster:null},
+  {id:'hydra',title:'Hydra',role:'AI Engineer / Backend Developer',purpose:'Public infrastructure transparency and risk screening.',
+    contribution:'Built a pipeline to validate, geocode, and analyze public infrastructure records, with a rule-based risk engine. Developed as a hackathon project.',tools:['Python','Flask','SQLite'],url:null,repositoryUrl:null},
+  {id:'rule-vii',title:'Rule VII',role:'AI Engineer / Full Stack Developer',purpose:'Architectural regulation retrieval.',
+    contribution:'Built document extraction, hybrid retrieval, and authenticated APIs for searching architectural regulations.',tools:['Next.js','FastAPI','Supabase','pgvector','Groq'],url:'https://rule-vii-frontend.vercel.app',repositoryUrl:'https://github.com/migsrvr/Rule-VII---AI-Architect'},
+  {id:'hima-paiflow',title:'Hima-Paiflow',role:'Full Stack Mobile Developer',purpose:'Student allowance app with Safe-to-Spend budgeting, AI advice, and NFC tap-to-pay on the Stellar testnet.',
+    contribution:'Handled full stack mobile development for a hackathon project.',tools:['React Native','Expo','TypeScript','Express','Stellar','Groq'],url:'https://hima-showcase.vercel.app',repositoryUrl:'https://github.com/migsrvr/hima-paiflow'},
+  {id:'desktop-widget',title:'SESSION',role:'Full Stack Desktop Developer',purpose:'Tasks, focus sessions, and AI plan allowances in one calm workspace, on the web and desktop.',
+    contribution:'Handled full stack desktop development.',tools:['React','TypeScript','Vite','Tauri','Rust'],url:'https://session-xi-mauve.vercel.app',repositoryUrl:'https://github.com/migsrvr/Desktop-widget'},
 ];
 
 export const featured = [
@@ -69,7 +64,7 @@ export const experiences = [
   {id:'flyrank-ai',projectIds:[],role:'Backend AI Engineer Intern',organization:'FlyRank AI',
     description:'Completed an internship focused on backend AI engineering at FlyRank AI.',
     startDate:'2026-06',endDate:'2026-09',employmentType:'Internship',location:'Chicago, Illinois, United States',workMode:'Remote',logo:'/assets/flyrank_logo.jfif'},
-  {id:'freelance',projectIds:['care-cures','snea'],role:'Freelance developer',organization:'Independent commissions',
+  {id:'freelance',projectIds:['care-cures'],role:'Freelance developer',organization:'Independent commissions',
     description:'Completed two freelance projects for nursing and engineering students.',
     startDate:null,endDate:null,employmentType:'Freelance',location:null,workMode:null,logo:'/assets/favicon.svg'},
 ];
@@ -107,18 +102,18 @@ export const communityPages = [
 ];
 
 // Project connections above include only owner-confirmed experience associations.
+// Legacy Gallery records remain editable in admin; no public Gallery is generated.
 export const gallery = [
   {id:'community',title:'Community moments',caption:'Photo to be added',image:null},
   {id:'hackathons',title:'Hackathons',caption:'Photo to be added',image:null},
   {id:'behind-the-scenes',title:'Behind the scenes',caption:'Photo to be added',image:null},
 ];
-export const assistantContent={profile,projects:[...deployed,...recorded]};
+export const assistantContent={profile,projects:deployed};
 
 export const routes = [
   {path:'/',title:'Miggy Rivera — Software developer',description:'Selected development work, experience, and credentials from Miggy Rivera.'},
-  {path:'/projects/',title:'Projects — Miggy Rivera',description:'Deployed websites, recorded walkthroughs, and development projects.'},
+  {path:'/projects/',title:'Projects — Miggy Rivera',description:'Live projects and code.'},
   {path:'/experience/',title:'Experience — Miggy Rivera',description:'Internships, independent work, and student leadership.'},
   {path:'/credentials/',title:'Credentials — Miggy Rivera',description:'Certifications, speaking, hackathons, and other recognition.'},
   ...communityPages.map(page=>({path:page.path,title:page.title+' — Miggy Rivera',description:page.intro})),
-  {path:'/gallery/',title:'Gallery — Miggy Rivera',description:'Moments from speaking, community, and building.'},
 ];

@@ -4,7 +4,7 @@ export function githubUsername(value){
   }catch{return null;}
 }
 
-const logos={javascript:'javascript',python:'python',fastapi:'fastapi',flask:'flask',postgresql:'postgresql',supabase:'supabase',sqlite:'sqlite',vercel:'vercel',react:'react',railway:'railway','next.js':'nextdotjs',typescript:'typescript','google gemini':'googlegemini'};
+const logos={javascript:'javascript',python:'python',fastapi:'fastapi',flask:'flask',postgresql:'postgresql',supabase:'supabase',sqlite:'sqlite',vercel:'vercel',react:'react',railway:'railway','next.js':'nextdotjs',typescript:'typescript','google gemini':'googlegemini','react native':'react',expo:'expo',express:'express',stellar:'stellar',vite:'vite',tauri:'tauri',rust:'rust'};
 export const techLogo=name=>Object.hasOwn(logos,name.trim().toLowerCase())?logos[name.trim().toLowerCase()]:null;
 const badges={'tesseract.js':'OCR',pgvector:'PGV',groq:'GQ'};
 export const techBadge=name=>Object.hasOwn(badges,name.trim().toLowerCase())?badges[name.trim().toLowerCase()]:null;

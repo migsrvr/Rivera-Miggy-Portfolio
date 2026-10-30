@@ -54,7 +54,7 @@ test('AWS facts agree across Experience and Leadership without changing project 
     for(const key of ['description','startDate','endDate','employmentType','location','workMode'])assert.equal(item[key],experience[key],key);
   }
   assert.deepEqual(draft.relationships.map(({project_id,experience_id,sample})=>[project_id,experience_id,sample]).sort((a,b)=>a[0].localeCompare(b[0])),[
-    ['aws-website','aws-sbg-jru',false],['care-cures','freelance',false],['snea','freelance',false],
+    ['aws-website','aws-sbg-jru',false],['care-cures','freelance',false],
   ]);
 });
 

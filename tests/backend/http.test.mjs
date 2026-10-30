@@ -4,6 +4,44 @@ import path from 'node:path';
 import os from 'node:os';
 import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
 
+test('retired Gallery URLs return 404 in fallback builds, older releases, and authenticated previews',async()=>{
+  const {createApp}=await import('../../server/app.mjs');
+  const {Publisher}=await import('../../server/publisher.mjs');
+  const root=await mkdtemp(path.join(os.tmpdir(),'portfolio-gallery-http-'));
+  const releaseId=crypto.randomUUID();let app;
+  try{
+    for(const relative of ['dist',`.local/releases/${releaseId}`,'.local/previews/old-preview']){
+      const folder=path.join(root,relative);
+      await mkdir(path.join(folder,'gallery/photo'),{recursive:true});
+      await mkdir(path.join(folder,'hackathons'),{recursive:true});
+      await writeFile(path.join(folder,'index.html'),'HOME');
+      await writeFile(path.join(folder,'gallery/index.html'),'OLD GALLERY');
+      await writeFile(path.join(folder,'gallery/photo/index.html'),'OLD GALLERY PHOTO');
+      await writeFile(path.join(folder,'hackathons/index.html'),'HACKATHONS');
+      await writeFile(path.join(folder,'404.html'),'Page not found.');
+    }
+    const publisher=new Publisher({root});
+    app=await createApp({config:{root,origin:'http://127.0.0.1:4173',configured:false,secure:false},publisher,
+      auth:{authenticate:async()=>({user:{email:'test@portfolio.local'},csrf:'csrf'})},repository:()=>({})});
+    publisher.previews.set('old-preview',path.join(root,'.local/previews/old-preview'));
+    async function check(prefix){
+      assert.equal((await app.inject(prefix+'hackathons/')).body,'HACKATHONS');
+      for(const suffix of ['gallery','gallery/','gallery/?from=old','gallery/index.html','gallery/photo/','gallery/photo/index.html','%67allery/','gallery%2Findex.html','Gallery/','gallery//photo/']){
+        for(const method of ['GET','HEAD']){
+          const response=await app.inject({method,url:prefix+suffix});
+          assert.equal(response.statusCode,404,method+' '+prefix+suffix);
+          assert.ok(!response.body.includes('OLD GALLERY'));
+          if(method==='GET')assert.equal(response.body,'Page not found.');
+        }
+      }
+    }
+    await check('/');
+    await publisher.switchTo(releaseId);
+    await check('/');
+    await check('/admin/preview/old-preview/');
+  }finally{await app?.close();await rm(root,{recursive:true,force:true});}
+});
+
 test('retired experience URLs return 404 even in older active releases and authenticated previews',async()=>{
   const {createApp}=await import('../../server/app.mjs');
   const {Publisher}=await import('../../server/publisher.mjs');

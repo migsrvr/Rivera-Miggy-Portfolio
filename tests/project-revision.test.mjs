@@ -19,12 +19,12 @@ test('all pages keep contact in navigation without repeated page contact or work
   assert.match(renderPage('/',content),/href="https:\/\/github.com\/migsrvr"/);
 });
 
-test('larger demo selectors preserve supplied posters and the single connected player',()=>{
-  const draft=createSeedDraft();draft.entries.find(e=>e.id==='hima-paiflow').data.poster='/assets/stage-speaking.png';
-  const content=toContent(draft);const html=renderPage('/projects/',content);
-  assert.match(html,/data-project-count="3"/);
-  const tab=html.match(/<button class="demo-tab"[^>]*id="demo-tab-hima-paiflow"[\s\S]*?<\/button>/)[0];
-  assert.match(tab,/class="demo-still"[^>]*src="\/assets\/stage-speaking.png"/);
-  assert.match(tab,/aria-controls="demo-panel"/);
-  assert.equal((html.match(/id="demo-player"/g)||[]).length,1);
+test('leftover demo fields in an old draft are dropped and never rendered',()=>{
+  const draft=createSeedDraft(),hima=draft.entries.find(e=>e.id==='hima-paiflow');
+  Object.assign(hima.data,{kind:'recorded',poster:'/assets/stage-speaking.png',videoUrl:'https://youtu.be/abcDEF123_-'});
+  const content=toContent(draft),html=renderPage('/projects/',content),main=html.match(/<main id="main">([\s\S]*?)<\/main>/)[1];
+  const live=content.deployed.find(p=>p.id==='hima-paiflow');
+  for(const key of ['kind','poster','videoUrl'])assert.ok(!(key in live),key);
+  assert.match(main,/<article[^>]*id="hima-paiflow"/);
+  assert.doesNotMatch(html,/demo-|youtu|<video/);assert.doesNotMatch(main,/stage-speaking/);
 });
